@@ -1,135 +1,17 @@
+import { COPY } from './js/i18n-dict.js';
+import { renderIcons } from './js/icons.js';
+import { escapeHtml, safeUrl } from './js/security.js';
+import { setupTheme } from './js/theme.js';
+import { setupFollowGate } from './js/follow-gate.js';
+
 (function () {
   const html = document.documentElement;
-  const themeBtn = document.getElementById('theme-toggle');
   const langBtn = document.getElementById('lang-toggle');
-  const savedTheme = localStorage.getItem('giato-web-theme') || 'dark';
   let currentLang = localStorage.getItem('giato-web-lang') || 'en';
   let currentTag = 'v0.1.0';
   let currentFeed = null;
 
-  html.setAttribute('data-theme', savedTheme);
   html.setAttribute('lang', currentLang);
-
-  const COPY = {
-    en: {
-      navOffice: 'Office',
-      navFeatures: 'Highlights',
-      navDownload: 'Download',
-      navReleases: 'Releases',
-      heroTitle: 'Work alongside an AI team.',
-      heroSub: 'One calm desktop workspace for your projects.',
-      chooseOs: 'All Platforms',
-      scSwarm: 'Team',
-      scRelease: 'Build',
-      scSsh: 'Cloud',
-      scDb: 'Workspace',
-      sliderTitle: 'Built for everyday work.',
-      dlTitle: 'Download Giato',
-      dlVersion: 'Version',
-      dlMac: 'macOS Installer',
-      dlWinExe: 'Windows Setup',
-      dlWinMsi: 'Windows MSI',
-      dlLinuxApp: 'AppImage',
-      dlLinuxDeb: 'Ubuntu / Debian',
-      recommended: 'Recommended',
-      desktop: 'Desktop',
-      releasesTitle: 'Releases',
-      allReleases: 'All Releases',
-      openRelease: 'Open',
-      viewNotice: 'View',
-      gateTitle: 'Follow us, then download',
-      gateSub: 'We are a small indie team — open all four so the download link unlocks. Thanks for the support!',
-      gateContinueLocked: (n) => `Open all four to continue (${n}/4)`,
-      gateContinueReady: 'Continue to download',
-      dlMacLabel: (tag) => `Download for macOS (${tag})`,
-      dlWinLabel: (tag) => `Download for Windows (${tag})`,
-      dlLinuxLabel: (tag) => `Download for Linux (${tag})`,
-      row1: [
-        { icon: 'users', title: 'Parallel AI Team', sub: 'Work across tasks together', scenario: 'swarm' },
-        { icon: 'terminal', title: 'Remote Workspace', sub: 'Connect directly from one app', scenario: 'ssh' },
-        { icon: 'code-2', title: 'Clean Code Review', sub: 'Inspect every change clearly', scenario: 'swarm' },
-        { icon: 'globe', title: 'Live Preview', sub: 'See results side by side', scenario: 'release' },
-        { icon: 'folder-git-2', title: 'Multi-Project', sub: 'Keep every folder tidy', scenario: 'swarm' }
-      ],
-      row2: [
-        { icon: 'hard-drive', title: 'Local-First', sub: 'Your work stays on your device', scenario: 'db' },
-        { icon: 'search', title: 'Instant Search', sub: 'Find past sessions in seconds', scenario: 'db' },
-        { icon: 'bell', title: 'Seamless Updates', sub: 'Know when new versions arrive', scenario: 'release' },
-        { icon: 'laptop', title: 'Cross-Platform', sub: 'Mac, Windows, and Linux', scenario: 'release' },
-        { icon: 'sun-moon', title: 'Dark & Light', sub: 'Comfortable day or night', scenario: 'swarm' }
-      ]
-    },
-    id: {
-      navOffice: 'Office',
-      navFeatures: 'Keunggulan',
-      navDownload: 'Download',
-      navReleases: 'Rilis',
-      heroTitle: 'Kerja bareng tim AI.',
-      heroSub: 'Satu ruang kerja desktop yang tenang untuk proyek Anda.',
-      chooseOs: 'Pilih OS',
-      scSwarm: 'Tim',
-      scRelease: 'Rilis',
-      scSsh: 'Cloud',
-      scDb: 'Ruang Kerja',
-      sliderTitle: 'Dirancang untuk kerja harian.',
-      dlTitle: 'Download Giato',
-      dlVersion: 'Versi',
-      dlMac: 'Installer macOS',
-      dlWinExe: 'Windows Setup',
-      dlWinMsi: 'Windows MSI',
-      dlLinuxApp: 'AppImage',
-      dlLinuxDeb: 'Ubuntu / Debian',
-      recommended: 'Rekomendasi',
-      desktop: 'Desktop',
-      releasesTitle: 'Rilis',
-      allReleases: 'Semua Rilis',
-      openRelease: 'Buka',
-      viewNotice: 'Lihat',
-      gateTitle: 'Follow dulu, baru download',
-      gateSub: 'Kami tim indie kecil — buka keempat link ini supaya tombol unduh terbuka. Makasih banyak dukungannya!',
-      gateContinueLocked: (n) => `Buka keempatnya dulu (${n}/4)`,
-      gateContinueReady: 'Lanjutkan unduhan',
-      dlMacLabel: (tag) => `Unduh macOS (${tag})`,
-      dlWinLabel: (tag) => `Unduh Windows (${tag})`,
-      dlLinuxLabel: (tag) => `Unduh Linux (${tag})`,
-      row1: [
-        { icon: 'users', title: 'Tim AI Paralel', sub: 'Kerjakan beberapa tugas sekaligus', scenario: 'swarm' },
-        { icon: 'terminal', title: 'Kerja Jarak Jauh', sub: 'Terhubung langsung dalam satu app', scenario: 'ssh' },
-        { icon: 'code-2', title: 'Tinjau Perubahan', sub: 'Lihat hasil dengan rapi', scenario: 'swarm' },
-        { icon: 'globe', title: 'Pratinjau Langsung', sub: 'Pantau tampilan berdampingan', scenario: 'release' },
-        { icon: 'folder-git-2', title: 'Banyak Proyek', sub: 'Semua folder tersusun rapi', scenario: 'swarm' }
-      ],
-      row2: [
-        { icon: 'hard-drive', title: 'Tetap di Perangkat', sub: 'Data kerja ada di komputer Anda', scenario: 'db' },
-        { icon: 'search', title: 'Cari Cepat', sub: 'Temukan riwayat dalam sekejap', scenario: 'db' },
-        { icon: 'bell', title: 'Update Otomatis', sub: 'Info versi baru langsung muncul', scenario: 'release' },
-        { icon: 'laptop', title: 'Lintas Platform', sub: 'Mac, Windows, dan Linux', scenario: 'release' },
-        { icon: 'sun-moon', title: 'Gelap & Terang', sub: 'Nyaman dipakai kapan saja', scenario: 'swarm' }
-      ]
-    }
-  };
-
-  function renderIcons() {
-    if (window.lucide && typeof window.lucide.createIcons === 'function') {
-      window.lucide.createIcons();
-    }
-  }
-
-  function syncThemeIcon() {
-    if (!themeBtn) return;
-    const isLight = html.getAttribute('data-theme') === 'light';
-    themeBtn.innerHTML = `<i data-lucide="${isLight ? 'moon' : 'sun'}"></i>`;
-    renderIcons();
-  }
-
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-      const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('giato-web-theme', next);
-      syncThemeIcon();
-    });
-  }
 
   function detectOS() {
     const ua = (navigator.userAgent || '').toLowerCase();
@@ -141,14 +23,6 @@
   }
 
   const detectedOs = detectOS();
-
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
 
   function applyLanguage() {
     const dict = COPY[currentLang] || COPY.en;
@@ -211,7 +85,7 @@
               <span>${escapeHtml(item.date || '')}</span>
             </div>
             <p class="release-notes">${escapeHtml(item.notes || '')}</p>
-            <a class="btn" href="${escapeHtml(item.releaseUrl || fallbackUrl)}" target="_blank" rel="noopener">
+            <a class="btn" href="${escapeHtml(safeUrl(item.releaseUrl || fallbackUrl, fallbackUrl))}" target="_blank" rel="noopener noreferrer">
               <i data-lucide="arrow-up-right"></i>
               <span>${dict.openRelease}</span>
             </a>
@@ -250,7 +124,7 @@
         win: dl.win_x64_exe || fallbackUrl,
         linux: dl.linux_x64_appimage || fallbackUrl
       };
-      primaryBtn.href = urlMap[detectedOs] || fallbackUrl;
+      primaryBtn.href = safeUrl(urlMap[detectedOs] || fallbackUrl, fallbackUrl);
     }
 
     const linkMap = {
@@ -262,7 +136,7 @@
     };
     Object.entries(linkMap).forEach(([id, url]) => {
       const el = document.getElementById(id);
-      if (el && url) el.href = url;
+      if (el && url) el.href = safeUrl(url, el.href);
     });
 
     const noticeBar = document.getElementById('notice-bar');
@@ -270,7 +144,7 @@
     if (noticeBar && firstNotice && firstNotice.title) {
       document.getElementById('notice-text').textContent = firstNotice.title;
       const nLink = document.getElementById('notice-link');
-      if (nLink) nLink.href = firstNotice.url || '#downloads';
+      if (nLink) nLink.href = firstNotice.url ? safeUrl(firstNotice.url, '#downloads') : '#downloads';
       noticeBar.hidden = false;
     }
 
@@ -292,9 +166,9 @@
       dockAgents.innerHTML = agents
         .map(
           (a) => `
-          <button type="button" class="dock-btn ${a.id === selectedId ? 'is-selected' : ''}" data-agent-id="${a.id}">
-            <span class="agent-dot" style="background:${a.color}"></span>
-            <span>${a.name}</span>
+          <button type="button" class="dock-btn ${a.id === selectedId ? 'is-selected' : ''}" data-agent-id="${escapeHtml(a.id)}">
+            <span class="agent-dot" style="background:${escapeHtml(a.color)}"></span>
+            <span>${escapeHtml(a.name)}</span>
           </button>
         `
         )
@@ -362,11 +236,11 @@
       [...items, ...items]
         .map(
           (item) => `
-          <div class="slide-card" data-jump-scenario="${item.scenario}">
-            <div class="slide-icon"><i data-lucide="${item.icon}"></i></div>
+          <div class="slide-card" data-jump-scenario="${escapeHtml(item.scenario)}">
+            <div class="slide-icon"><i data-lucide="${escapeHtml(item.icon)}"></i></div>
             <div>
-              <span class="slide-title">${item.title}</span>
-              <span class="slide-sub">${item.sub}</span>
+              <span class="slide-title">${escapeHtml(item.title)}</span>
+              <span class="slide-sub">${escapeHtml(item.sub)}</span>
             </div>
           </div>
         `
@@ -435,90 +309,11 @@
     document.getElementById('slider-next')?.addEventListener('click', () => { velocityBoost = 540; });
   }
 
-  const FOLLOW_KEY = 'giato-web-followed-v1';
-  const DOWNLOAD_TRIGGER_IDS = ['hero-primary-download', 'dl-mac-dmg', 'dl-win-exe', 'dl-win-msi', 'dl-linux-appimage', 'dl-linux-deb'];
-
-  function setupFollowGate() {
-    const overlay = document.getElementById('follow-gate');
-    const continueBtn = document.getElementById('follow-gate-continue');
-    const closeBtn = document.getElementById('follow-gate-close');
-    if (!overlay || !continueBtn) return;
-
-    const socialLinks = Array.from(overlay.querySelectorAll('.social-link'));
-    let pendingUrl = null;
-    let pendingTarget = null;
-
-    function updateContinueLabel() {
-      const dict = COPY[currentLang] || COPY.en;
-      const visited = socialLinks.filter((a) => a.classList.contains('is-visited')).length;
-      const ready = visited >= socialLinks.length;
-      continueBtn.disabled = !ready;
-      continueBtn.querySelector('span').textContent = ready ? dict.gateContinueReady : dict.gateContinueLocked(visited);
-    }
-
-    function openGate(url, target) {
-      pendingUrl = url;
-      pendingTarget = target;
-      overlay.hidden = false;
-      renderIcons();
-      updateContinueLabel();
-    }
-
-    function closeGate() {
-      overlay.hidden = true;
-      pendingUrl = null;
-      pendingTarget = null;
-    }
-
-    function followedAlready() {
-      try { return localStorage.getItem(FOLLOW_KEY) === '1'; } catch { return false; }
-    }
-
-    function markFollowed() {
-      try { localStorage.setItem(FOLLOW_KEY, '1'); } catch {
-        // Private browsing or storage disabled: the gate just reopens next time, which is fine.
-      }
-    }
-
-    DOWNLOAD_TRIGGER_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.addEventListener('click', (event) => {
-        if (followedAlready()) return;
-        event.preventDefault();
-        openGate(el.href, el.target || '_self');
-      });
-    });
-
-    socialLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        link.classList.add('is-visited');
-        updateContinueLabel();
-      });
-    });
-
-    continueBtn.addEventListener('click', () => {
-      if (continueBtn.disabled) return;
-      markFollowed();
-      const url = pendingUrl;
-      const target = pendingTarget;
-      closeGate();
-      if (url) {
-        if (target === '_blank') window.open(url, '_blank', 'noopener');
-        else window.location.href = url;
-      }
-    });
-
-    closeBtn?.addEventListener('click', closeGate);
-    overlay.addEventListener('click', (event) => { if (event.target === overlay) closeGate(); });
-    document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !overlay.hidden) closeGate(); });
-  }
-
-  syncThemeIcon();
+  setupTheme();
   renderIcons();
   setupOfficeOverlay();
   setupKineticSlider();
-  setupFollowGate();
+  setupFollowGate(() => currentLang);
   applyLanguage();
   hydrateReleases();
 })();

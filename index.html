@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Giato — AI Desktop Workspace</title>
   <meta name="description" content="One desktop workspace for your code, servers, and projects." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <link rel="icon" type="image/png" href="./assets/giato-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -177,7 +179,7 @@
             <span class="os-badge">Desktop</span>
           </div>
           <div class="os-actions">
-            <a id="dl-mac-dmg" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-mac-dmg" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlMac">macOS Installer</span>
               <small>.dmg</small>
               <i data-lucide="arrow-down-to-line"></i>
@@ -197,12 +199,12 @@
             <span class="os-badge">Desktop</span>
           </div>
           <div class="os-actions">
-            <a id="dl-win-exe" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-win-exe" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlWinExe">Windows Setup</span>
               <small>.exe</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
-            <a id="dl-win-msi" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-win-msi" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlWinMsi">Windows MSI</span>
               <small>.msi</small>
               <i data-lucide="arrow-down-to-line"></i>
@@ -222,12 +224,12 @@
             <span class="os-badge">Desktop</span>
           </div>
           <div class="os-actions">
-            <a id="dl-linux-appimage" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-linux-appimage" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlLinuxApp">AppImage</span>
               <small>.AppImage</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
-            <a id="dl-linux-deb" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-linux-deb" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlLinuxDeb">Ubuntu / Debian</span>
               <small>.deb</small>
               <i data-lucide="arrow-down-to-line"></i>
@@ -242,7 +244,7 @@
         <div>
           <h2 data-i18n="releasesTitle">Releases</h2>
         </div>
-        <a class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+        <a class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
           <i data-lucide="github"></i>
           <span data-i18n="allReleases">All Releases</span>
         </a>
@@ -258,7 +260,7 @@
     </div>
     <div class="footer-links">
       <a href="https://giato.giatechindo.my.id">giato.giatechindo.my.id</a>
-      <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener" data-i18n="navReleases">Releases</a>
+      <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer" data-i18n="navReleases">Releases</a>
     </div>
   </footer>
 
@@ -271,22 +273,22 @@
       <h3 id="follow-gate-title" data-i18n="gateTitle">Follow us, then download</h3>
       <p class="modal-sub" data-i18n="gateSub">Tap all four to unlock the download — thanks for the support!</p>
       <div class="social-grid">
-        <a class="social-link" data-social="youtube" href="https://www.youtube.com/@giatechindo" target="_blank" rel="noopener">
+        <a class="social-link" data-social="youtube" href="https://www.youtube.com/@giatechindo" target="_blank" rel="noopener noreferrer">
           <i data-lucide="youtube"></i>
           <span>YouTube</span>
           <i class="social-check" data-lucide="check"></i>
         </a>
-        <a class="social-link" data-social="facebook" href="https://www.facebook.com/goegoen.ii/" target="_blank" rel="noopener">
+        <a class="social-link" data-social="facebook" href="https://www.facebook.com/goegoen.ii/" target="_blank" rel="noopener noreferrer">
           <i data-lucide="facebook"></i>
           <span>Facebook</span>
           <i class="social-check" data-lucide="check"></i>
         </a>
-        <a class="social-link" data-social="instagram" href="https://www.instagram.com/gugunii/" target="_blank" rel="noopener">
+        <a class="social-link" data-social="instagram" href="https://www.instagram.com/gugunii/" target="_blank" rel="noopener noreferrer">
           <i data-lucide="instagram"></i>
           <span>Instagram</span>
           <i class="social-check" data-lucide="check"></i>
         </a>
-        <a class="social-link" data-social="threads" href="https://www.threads.com/@gugunii" target="_blank" rel="noopener">
+        <a class="social-link" data-social="threads" href="https://www.threads.com/@gugunii" target="_blank" rel="noopener noreferrer">
           <i data-lucide="at-sign"></i>
           <span>Threads</span>
           <i class="social-check" data-lucide="check"></i>
@@ -299,8 +301,8 @@
     </div>
   </div>
 
-  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js" integrity="sha384-ieG+IKD0d/ZPXyCBTMVAbqsQdns8QGJR/e26WMw7M4fkaI/rHcS/YIoi+ah9WGge" crossorigin="anonymous"></script>
   <script src="./office-sim.js"></script>
-  <script src="./app.js"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>

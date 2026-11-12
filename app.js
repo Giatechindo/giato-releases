@@ -1,8 +1,105 @@
 (function () {
   const html = document.documentElement;
   const themeBtn = document.getElementById('theme-toggle');
+  const langBtn = document.getElementById('lang-toggle');
   const savedTheme = localStorage.getItem('giato-web-theme') || 'dark';
+  let currentLang = localStorage.getItem('giato-web-lang') || 'en';
+  let currentTag = 'v0.1.0';
+  let currentFeed = null;
+
   html.setAttribute('data-theme', savedTheme);
+  html.setAttribute('lang', currentLang);
+
+  const COPY = {
+    en: {
+      navOffice: 'Office',
+      navFeatures: 'Features',
+      navDownload: 'Download',
+      navReleases: 'Releases',
+      heroTitle: 'Work alongside an AI team.',
+      heroSub: 'One desktop workspace for your code, servers, and projects.',
+      chooseOs: 'All Platforms',
+      scSwarm: 'Active Team',
+      scRelease: 'Release',
+      scSsh: 'Servers',
+      scDb: 'Storage',
+      sliderTitle: 'Everything in one place.',
+      dlTitle: 'Download Giato',
+      dlVersion: 'Version',
+      dlMac: 'macOS Installer',
+      dlWinExe: 'Windows Setup',
+      dlWinMsi: 'Windows MSI',
+      dlLinuxApp: 'AppImage',
+      dlLinuxDeb: 'Ubuntu / Debian',
+      recommended: 'Recommended',
+      desktop: 'Desktop',
+      releasesTitle: 'Releases',
+      allReleases: 'All Releases',
+      openRelease: 'Open',
+      viewNotice: 'View',
+      dlMacLabel: (tag) => `Download for macOS (${tag})`,
+      dlWinLabel: (tag) => `Download for Windows (${tag})`,
+      dlLinuxLabel: (tag) => `Download for Linux (${tag})`,
+      row1: [
+        { icon: 'users', title: 'Parallel AI Team', sub: 'Split tasks across agents', scenario: 'swarm' },
+        { icon: 'terminal', title: 'SSH Servers', sub: 'Multi-host live terminal', scenario: 'ssh' },
+        { icon: 'code-2', title: 'Editor & Diffs', sub: 'Inspect every line cleanly', scenario: 'swarm' },
+        { icon: 'globe', title: 'Built-in Browser', sub: 'Live preview side by side', scenario: 'release' },
+        { icon: 'folder-git-2', title: 'Multi-Project', sub: 'Organized project tabs', scenario: 'swarm' }
+      ],
+      row2: [
+        { icon: 'hard-drive', title: 'Local-First', sub: 'Fast on-disk workspace', scenario: 'db' },
+        { icon: 'database', title: 'Optional Sync', sub: 'Two-way Postgres support', scenario: 'db' },
+        { icon: 'bell', title: 'Auto Updates', sub: 'Instant release alerts', scenario: 'release' },
+        { icon: 'laptop', title: 'Cross-Platform', sub: 'Mac, Windows & Linux', scenario: 'release' },
+        { icon: 'shield', title: 'GitHub Sign-In', sub: 'Private local data', scenario: 'swarm' }
+      ]
+    },
+    id: {
+      navOffice: 'Office',
+      navFeatures: 'Fitur',
+      navDownload: 'Download',
+      navReleases: 'Rilis',
+      heroTitle: 'Kerja bareng tim AI.',
+      heroSub: 'Satu ruang kerja desktop untuk kode, server, dan proyek Anda.',
+      chooseOs: 'Pilih OS',
+      scSwarm: 'Tim Aktif',
+      scRelease: 'Rilis',
+      scSsh: 'Server',
+      scDb: 'Database',
+      sliderTitle: 'Semua dalam satu tempat.',
+      dlTitle: 'Download Giato',
+      dlVersion: 'Versi',
+      dlMac: 'Installer macOS',
+      dlWinExe: 'Windows Setup',
+      dlWinMsi: 'Windows MSI',
+      dlLinuxApp: 'AppImage',
+      dlLinuxDeb: 'Ubuntu / Debian',
+      recommended: 'Rekomendasi',
+      desktop: 'Desktop',
+      releasesTitle: 'Rilis',
+      allReleases: 'Semua Rilis',
+      openRelease: 'Buka',
+      viewNotice: 'Lihat',
+      dlMacLabel: (tag) => `Unduh macOS (${tag})`,
+      dlWinLabel: (tag) => `Unduh Windows (${tag})`,
+      dlLinuxLabel: (tag) => `Unduh Linux (${tag})`,
+      row1: [
+        { icon: 'users', title: 'Tim Agent Paralel', sub: 'Bagi tugas otomatis', scenario: 'swarm' },
+        { icon: 'terminal', title: 'Server SSH', sub: 'Terminal multi-host', scenario: 'ssh' },
+        { icon: 'code-2', title: 'Editor & Diff', sub: 'Pantau tiap perubahan', scenario: 'swarm' },
+        { icon: 'globe', title: 'Browser Bawaan', sub: 'Pratinjau langsung', scenario: 'release' },
+        { icon: 'folder-git-2', title: 'Lintas Proyek', sub: 'Banyak folder rapi', scenario: 'swarm' }
+      ],
+      row2: [
+        { icon: 'hard-drive', title: 'Data Lokal', sub: 'Simpan cepat di komputer', scenario: 'db' },
+        { icon: 'database', title: 'Sync Opsional', sub: 'Dukungan PostgreSQL', scenario: 'db' },
+        { icon: 'bell', title: 'Update Otomatis', sub: 'Notif rilis terbaru', scenario: 'release' },
+        { icon: 'laptop', title: 'Multi-OS', sub: 'Mac, Windows, Linux', scenario: 'release' },
+        { icon: 'shield', title: 'Login GitHub', sub: 'Data tetap pribadi', scenario: 'swarm' }
+      ]
+    }
+  };
 
   function renderIcons() {
     if (window.lucide && typeof window.lucide.createIcons === 'function') {
@@ -36,13 +133,6 @@
   }
 
   const detectedOs = detectOS();
-  document.querySelectorAll('.os-card').forEach((card) => {
-    if (card.getAttribute('data-os') === detectedOs) {
-      card.classList.add('is-detected');
-      const badge = card.querySelector('.os-badge');
-      if (badge) badge.textContent = 'Rekomendasi';
-    }
-  });
 
   function escapeHtml(s) {
     return String(s)
@@ -50,6 +140,79 @@
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
+  }
+
+  function applyLanguage() {
+    const dict = COPY[currentLang] || COPY.en;
+    html.setAttribute('lang', currentLang);
+    if (langBtn) langBtn.textContent = currentLang.toUpperCase();
+
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (typeof dict[key] === 'string') el.textContent = dict[key];
+    });
+
+    document.querySelectorAll('.os-card').forEach((card) => {
+      const isDet = card.getAttribute('data-os') === detectedOs;
+      card.classList.toggle('is-detected', isDet);
+      const badge = card.querySelector('.os-badge');
+      if (badge) badge.textContent = isDet ? dict.recommended : dict.desktop;
+    });
+
+    const primaryLabel = document.getElementById('hero-download-label');
+    if (primaryLabel) {
+      primaryLabel.textContent =
+        detectedOs === 'win'
+          ? dict.dlWinLabel(currentTag)
+          : detectedOs === 'linux'
+            ? dict.dlLinuxLabel(currentTag)
+            : dict.dlMacLabel(currentTag);
+    }
+
+    if (window.GiatoOfficeSim && typeof window.GiatoOfficeSim.setLang === 'function') {
+      window.GiatoOfficeSim.setLang(currentLang);
+    }
+
+    renderSliderCards();
+    if (currentFeed) renderReleasesList(currentFeed);
+  }
+
+  if (langBtn) {
+    langBtn.addEventListener('click', () => {
+      currentLang = currentLang === 'en' ? 'id' : 'en';
+      localStorage.setItem('giato-web-lang', currentLang);
+      applyLanguage();
+    });
+  }
+
+  function renderReleasesList(feed) {
+    const dict = COPY[currentLang] || COPY.en;
+    const ver = feed.version || '0.1.0';
+    const tag = feed.tag || `v${ver}`;
+    const fallbackUrl = feed.releaseUrl || `https://github.com/Giatechindo/giato-releases/releases/tag/${tag}`;
+    const listEl = document.getElementById('release-list');
+    const history = Array.isArray(feed.history) && feed.history.length > 0 ? feed.history : [feed];
+
+    if (listEl) {
+      listEl.innerHTML = history
+        .map(
+          (item) => `
+          <article class="release-row">
+            <div class="release-ver">
+              <strong>v${escapeHtml(item.version || ver)}</strong>
+              <span>${escapeHtml(item.date || '')}</span>
+            </div>
+            <p class="release-notes">${escapeHtml(item.notes || '')}</p>
+            <a class="btn" href="${escapeHtml(item.releaseUrl || fallbackUrl)}" target="_blank" rel="noopener">
+              <i data-lucide="arrow-up-right"></i>
+              <span>${dict.openRelease}</span>
+            </a>
+          </article>
+        `
+        )
+        .join('');
+      renderIcons();
+    }
   }
 
   async function hydrateReleases() {
@@ -61,27 +224,25 @@
       // Keep defaults
     }
     if (!feed) return;
+    currentFeed = feed;
 
     const ver = feed.version || '0.1.0';
-    const tag = feed.tag || `v${ver}`;
+    currentTag = feed.tag || `v${ver}`;
     const dl = feed.downloads || {};
-    const fallbackUrl = feed.releaseUrl || `https://github.com/Giatechindo/giato-releases/releases/tag/${tag}`;
+    const fallbackUrl = feed.releaseUrl || `https://github.com/Giatechindo/giato-releases/releases/tag/${currentTag}`;
 
     document.querySelectorAll('[data-version-badge]').forEach((el) => {
-      el.textContent = tag;
+      el.textContent = currentTag;
     });
 
     const primaryBtn = document.getElementById('hero-primary-download');
-    const primaryLabel = document.getElementById('hero-download-label');
-    if (primaryBtn && primaryLabel) {
-      const map = {
-        mac: { label: `Unduh macOS (${tag})`, url: dl.mac_arm64_dmg || fallbackUrl },
-        win: { label: `Unduh Windows (${tag})`, url: dl.win_x64_exe || fallbackUrl },
-        linux: { label: `Unduh Linux (${tag})`, url: dl.linux_x64_appimage || fallbackUrl }
+    if (primaryBtn) {
+      const urlMap = {
+        mac: dl.mac_arm64_dmg || fallbackUrl,
+        win: dl.win_x64_exe || fallbackUrl,
+        linux: dl.linux_x64_appimage || fallbackUrl
       };
-      const chosen = map[detectedOs] || map.mac;
-      primaryLabel.textContent = chosen.label;
-      primaryBtn.href = chosen.url;
+      primaryBtn.href = urlMap[detectedOs] || fallbackUrl;
     }
 
     const linkMap = {
@@ -105,28 +266,7 @@
       noticeBar.hidden = false;
     }
 
-    const listEl = document.getElementById('release-list');
-    const history = Array.isArray(feed.history) && feed.history.length > 0 ? feed.history : [feed];
-    if (listEl) {
-      listEl.innerHTML = history
-        .map(
-          (item) => `
-          <article class="release-row">
-            <div class="release-ver">
-              <strong>v${escapeHtml(item.version || ver)}</strong>
-              <span>${escapeHtml(item.date || '')}</span>
-            </div>
-            <p class="release-notes">${escapeHtml(item.notes || '')}</p>
-            <a class="btn" href="${escapeHtml(item.releaseUrl || fallbackUrl)}" target="_blank" rel="noopener">
-              <i data-lucide="arrow-up-right"></i>
-              <span>Buka</span>
-            </a>
-          </article>
-        `
-        )
-        .join('');
-      renderIcons();
-    }
+    applyLanguage();
   }
 
   function setupOfficeOverlay() {
@@ -152,9 +292,7 @@
         )
         .join('');
       dockAgents.querySelectorAll('[data-agent-id]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          sim.selectAgent(btn.getAttribute('data-agent-id'));
-        });
+        btn.addEventListener('click', () => sim.selectAgent(btn.getAttribute('data-agent-id')));
       });
     }
 
@@ -172,7 +310,7 @@
     setInterval(() => {
       const active = agents.find((a) => a.id === sim.getSelectedId());
       if (active && liveTask) liveTask.textContent = active.task;
-    }, 500);
+    }, 450);
 
     document.querySelectorAll('[data-scenario]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -185,49 +323,33 @@
       });
     });
 
+    document.getElementById('sim-rot-left')?.addEventListener('click', () => sim.rotateBy(-45));
+    document.getElementById('sim-rot-right')?.addEventListener('click', () => sim.rotateBy(45));
+    document.getElementById('sim-zoom-in')?.addEventListener('click', () => sim.zoomBy(1.18));
+    document.getElementById('sim-zoom-out')?.addEventListener('click', () => sim.zoomBy(0.84));
+    document.getElementById('sim-reset')?.addEventListener('click', () => sim.resetView());
+
     const pauseBtn = document.getElementById('sim-pause');
     if (pauseBtn) {
       pauseBtn.addEventListener('click', () => {
         const isPaused = sim.togglePause();
         pauseBtn.innerHTML = `<i data-lucide="${isPaused ? 'play' : 'pause'}"></i>`;
-        pauseBtn.setAttribute('aria-label', isPaused ? 'Lanjutkan simulasi' : 'Jeda simulasi');
         renderIcons();
       });
-    }
-
-    const resetBtn = document.getElementById('sim-reset');
-    if (resetBtn) {
-      resetBtn.addEventListener('click', () => sim.resetView());
     }
 
     updateLivePill(agents[0]);
   }
 
-  // Interactive Left-Right Dual-Track Slider
-  function setupKineticSlider() {
+  let velocityBoost = 0;
+  let sliderStarted = false;
+
+  function renderSliderCards() {
     const trackLeft = document.getElementById('slider-track-left');
     const trackRight = document.getElementById('slider-track-right');
-    const prevBtn = document.getElementById('slider-prev');
-    const nextBtn = document.getElementById('slider-next');
-    const band = document.getElementById('slider-band');
     if (!trackLeft || !trackRight) return;
 
-    const row1 = [
-      { icon: 'users', title: 'Tim Agent Paralel', sub: 'Bagi tugas otomatis', scenario: 'swarm' },
-      { icon: 'terminal', title: 'Server SSH', sub: 'Terminal multi-host', scenario: 'ssh' },
-      { icon: 'code-2', title: 'Editor & Diff', sub: 'Pantau tiap perubahan', scenario: 'swarm' },
-      { icon: 'globe', title: 'Browser Bawaan', sub: 'Pratinjau langsung', scenario: 'release' },
-      { icon: 'folder-git-2', title: 'Lintas Proyek', sub: 'Banyak folder rapi', scenario: 'swarm' }
-    ];
-
-    const row2 = [
-      { icon: 'hard-drive', title: 'Data Lokal', sub: 'Simpan cepat di komputer', scenario: 'db' },
-      { icon: 'database', title: 'Sync PostgreSQL', sub: 'Opsional 2 arah', scenario: 'db' },
-      { icon: 'bell', title: 'Update Otomatis', sub: 'Notif rilis terbaru', scenario: 'release' },
-      { icon: 'laptop', title: 'Multi-OS', sub: 'Mac, Windows, Linux', scenario: 'release' },
-      { icon: 'shield', title: 'Login GitHub', sub: 'Data tetap pribadi', scenario: 'swarm' }
-    ];
-
+    const dict = COPY[currentLang] || COPY.en;
     const makeCards = (items) =>
       [...items, ...items]
         .map(
@@ -243,13 +365,32 @@
         )
         .join('');
 
-    trackLeft.innerHTML = makeCards(row1);
-    trackRight.innerHTML = makeCards(row2);
+    trackLeft.innerHTML = makeCards(dict.row1);
+    trackRight.innerHTML = makeCards(dict.row2);
     renderIcons();
+
+    document.querySelectorAll('[data-jump-scenario]').forEach((card) => {
+      card.addEventListener('click', () => {
+        const sc = card.getAttribute('data-jump-scenario');
+        const btn = document.querySelector(`[data-scenario="${sc}"]`);
+        if (btn) btn.click();
+        document.getElementById('office')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+  }
+
+  function setupKineticSlider() {
+    if (sliderStarted) return;
+    sliderStarted = true;
+    const trackLeft = document.getElementById('slider-track-left');
+    const trackRight = document.getElementById('slider-track-right');
+    const band = document.getElementById('slider-band');
+    if (!trackLeft || !trackRight) return;
+
+    renderSliderCards();
 
     let offsetA = 0;
     let offsetB = 0;
-    let velocityBoost = 0;
     let hoverPaused = false;
     let lastTs = performance.now();
 
@@ -282,26 +423,14 @@
       band.addEventListener('mouseleave', () => { hoverPaused = false; });
     }
 
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => { velocityBoost = -520; });
-    }
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => { velocityBoost = 520; });
-    }
-
-    band?.querySelectorAll('[data-jump-scenario]').forEach((card) => {
-      card.addEventListener('click', () => {
-        const sc = card.getAttribute('data-jump-scenario');
-        const btn = document.querySelector(`[data-scenario="${sc}"]`);
-        if (btn) btn.click();
-        document.getElementById('office')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      });
-    });
+    document.getElementById('slider-prev')?.addEventListener('click', () => { velocityBoost = -540; });
+    document.getElementById('slider-next')?.addEventListener('click', () => { velocityBoost = 540; });
   }
 
   syncThemeIcon();
   renderIcons();
-  hydrateReleases();
   setupOfficeOverlay();
   setupKineticSlider();
+  applyLanguage();
+  hydrateReleases();
 })();

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Giato — Ruang Kerja AI Desktop</title>
-  <meta name="description" content="Aplikasi desktop untuk menjalankan tim agent AI, mengelola server SSH, menulis kode, dan menyinkronkan data secara lokal." />
+  <title>Giato — Ruang Kerja AI</title>
+  <meta name="description" content="Satu ruang kerja desktop untuk bekerja bersama tim agent AI." />
   <link rel="icon" type="image/png" href="./assets/giato-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,8 +20,8 @@
     </a>
 
     <nav class="nav-links" aria-label="Navigasi">
-      <a href="#office">Virtual Office</a>
-      <a href="#features">Fitur</a>
+      <a href="#office">Office</a>
+      <a href="#slider-band">Fitur</a>
       <a href="#downloads">Download</a>
       <a href="#releases">Rilis</a>
     </nav>
@@ -50,17 +50,15 @@
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <h1>Satu aplikasi desktop.<br />Satu tim AI yang bekerja untuk Anda.</h1>
-        <p class="hero-sub">
-          Tulis kode, jalankan perintah server SSH, cari riwayat secara lokal, dan pantau pekerjaan banyak agent AI dalam satu tempat.
-        </p>
+        <h1>Kerja bareng tim AI.</h1>
+        <p class="hero-sub">Satu ruang kerja desktop untuk kode, server, dan proyek Anda.</p>
       </div>
 
       <div class="hero-actions">
         <div class="hero-btn-group">
           <a id="hero-primary-download" class="btn btn-primary btn-lg" href="#downloads">
             <i data-lucide="download"></i>
-            <span id="hero-download-label">Unduh Giato Desktop</span>
+            <span id="hero-download-label">Unduh Giato</span>
           </a>
           <a class="btn btn-lg" href="#downloads">
             <i data-lucide="layers"></i>
@@ -68,9 +66,9 @@
           </a>
         </div>
         <div class="hero-formats">
-          <a href="#downloads">macOS (.dmg)</a>
-          <a href="#downloads">Windows (.exe / .msi)</a>
-          <a href="#downloads">Linux (.AppImage / .deb)</a>
+          <a href="#downloads">macOS</a>
+          <a href="#downloads">Windows</a>
+          <a href="#downloads">Linux</a>
         </div>
       </div>
     </section>
@@ -108,7 +106,7 @@
           </button>
           <button type="button" class="dock-btn" data-scenario="ssh">
             <i data-lucide="server"></i>
-            <span>Server SSH</span>
+            <span>Server</span>
           </button>
           <button type="button" class="dock-btn" data-scenario="db">
             <i data-lucide="database"></i>
@@ -122,59 +120,52 @@
       </div>
     </section>
 
-    <section id="features" class="features-strip">
-      <article class="feature-cell">
-        <div class="feature-icon"><i data-lucide="users"></i></div>
-        <h3>Multi-Agent Paralel</h3>
-        <p>Agent bisa dibagi peran untuk riset, menulis kode, meninjau perubahan, dan menguji hasil sekaligus.</p>
-      </article>
+    <section id="slider-band" class="slider-band" aria-label="Kemampuan Giato">
+      <div class="slider-head">
+        <h2>Semua dalam satu tempat.</h2>
+        <div class="slider-controls">
+          <button id="slider-prev" class="icon-btn" type="button" aria-label="Geser ke kiri">
+            <i data-lucide="chevron-left"></i>
+          </button>
+          <button id="slider-next" class="icon-btn" type="button" aria-label="Geser ke kanan">
+            <i data-lucide="chevron-right"></i>
+          </button>
+        </div>
+      </div>
 
-      <article class="feature-cell">
-        <div class="feature-icon"><i data-lucide="terminal"></i></div>
-        <h3>Server SSH Terintegrasi</h3>
-        <p>Kelola banyak server sekaligus dengan terminal bawaan, riwayat per host, dan asisten perintah.</p>
-      </article>
-
-      <article class="feature-cell">
-        <div class="feature-icon"><i data-lucide="hard-drive"></i></div>
-        <h3>Cepat &amp; Tetap di Komputer</h3>
-        <p>Seluruh percakapan tersimpan lokal dan aman, dengan opsi sinkronisasi ke PostgreSQL pribadi Anda.</p>
-      </article>
-
-      <article class="feature-cell">
-        <div class="feature-icon"><i data-lucide="bell"></i></div>
-        <h3>Notifikasi Update Rilis</h3>
-        <p>Setiap versi terbaru rilis di aplikasi, desktop langsung memberi tahu pembaruan tanpa ribet.</p>
-      </article>
+      <div class="marquee-stack">
+        <div class="marquee-viewport">
+          <div id="slider-track-left" class="marquee-track"></div>
+        </div>
+        <div class="marquee-viewport">
+          <div id="slider-track-right" class="marquee-track"></div>
+        </div>
+      </div>
     </section>
 
     <section id="downloads" class="section-band">
       <div class="band-head">
         <div>
-          <h2>Unduh Giato Desktop</h2>
-          <p class="band-sub">Pilih paket instalasi untuk sistem operasi Anda (<span class="mono" data-version-badge>v0.1.0</span>).</p>
+          <h2>Download Giato</h2>
+          <p class="band-sub">Versi <span class="mono" data-version-badge>v0.1.0</span></p>
         </div>
-        <a id="dl-checksums" class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-          <i data-lucide="shield-check"></i>
-          <span>SHA256SUMS.txt</span>
-        </a>
       </div>
 
       <div class="download-grid">
         <article class="os-card" data-os="mac">
           <div class="os-head">
             <div class="os-title">
-              <div class="feature-icon" style="margin:0;"><i data-lucide="laptop"></i></div>
+              <div class="slide-icon" style="width:36px;height:36px;"><i data-lucide="laptop"></i></div>
               <div>
                 <h3>macOS</h3>
-                <small>Apple Silicon (M1 – M4)</small>
+                <small>Apple Silicon</small>
               </div>
             </div>
             <span class="os-badge">Desktop</span>
           </div>
           <div class="os-actions">
             <a id="dl-mac-dmg" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-              <span>Installer macOS</span>
+              <span>macOS Installer</span>
               <small>.dmg</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
@@ -184,10 +175,10 @@
         <article class="os-card" data-os="win">
           <div class="os-head">
             <div class="os-title">
-              <div class="feature-icon" style="margin:0;"><i data-lucide="monitor"></i></div>
+              <div class="slide-icon" style="width:36px;height:36px;"><i data-lucide="monitor"></i></div>
               <div>
                 <h3>Windows</h3>
-                <small>Windows 10 / 11 (64-bit)</small>
+                <small>Windows 10 / 11</small>
               </div>
             </div>
             <span class="os-badge">Desktop</span>
@@ -209,10 +200,10 @@
         <article class="os-card" data-os="linux">
           <div class="os-head">
             <div class="os-title">
-              <div class="feature-icon" style="margin:0;"><i data-lucide="terminal"></i></div>
+              <div class="slide-icon" style="width:36px;height:36px;"><i data-lucide="terminal"></i></div>
               <div>
                 <h3>Linux</h3>
-                <small>Ubuntu / Debian / Portable (64-bit)</small>
+                <small>64-bit</small>
               </div>
             </div>
             <span class="os-badge">Desktop</span>
@@ -236,8 +227,7 @@
     <section id="releases" class="section-band">
       <div class="band-head">
         <div>
-          <h2>Catatan Rilis</h2>
-          <p class="band-sub">Pembaruan versi terbaru.</p>
+          <h2>Rilis</h2>
         </div>
         <a class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
           <i data-lucide="github"></i>
@@ -251,12 +241,11 @@
 
   <footer>
     <div>
-      <strong>Giato AI Desktop</strong> · Gugun Gunawan, S.Kom · Giatechindo
+      <strong>Giato</strong> · Giatechindo
     </div>
     <div class="footer-links">
       <a href="https://giato.giatechindo.my.id">giato.giatechindo.my.id</a>
-      <a href="./update.json">update.json</a>
-      <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">GitHub Releases</a>
+      <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">Releases</a>
     </div>
   </footer>
 

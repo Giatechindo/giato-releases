@@ -58,7 +58,7 @@
       const res = await fetch('./update.json', { cache: 'no-store' });
       if (res.ok) feed = await res.json();
     } catch {
-      // Keep default links
+      // Keep defaults
     }
     if (!feed) return;
 
@@ -75,9 +75,9 @@
     const primaryLabel = document.getElementById('hero-download-label');
     if (primaryBtn && primaryLabel) {
       const map = {
-        mac: { label: `Unduh untuk macOS (${tag})`, url: dl.mac_arm64_dmg || fallbackUrl },
-        win: { label: `Unduh untuk Windows (${tag})`, url: dl.win_x64_exe || fallbackUrl },
-        linux: { label: `Unduh untuk Linux (${tag})`, url: dl.linux_x64_appimage || fallbackUrl }
+        mac: { label: `Unduh macOS (${tag})`, url: dl.mac_arm64_dmg || fallbackUrl },
+        win: { label: `Unduh Windows (${tag})`, url: dl.win_x64_exe || fallbackUrl },
+        linux: { label: `Unduh Linux (${tag})`, url: dl.linux_x64_appimage || fallbackUrl }
       };
       const chosen = map[detectedOs] || map.mac;
       primaryLabel.textContent = chosen.label;
@@ -89,8 +89,7 @@
       'dl-win-exe': dl.win_x64_exe,
       'dl-win-msi': dl.win_x64_msi,
       'dl-linux-appimage': dl.linux_x64_appimage,
-      'dl-linux-deb': dl.linux_x64_deb,
-      'dl-checksums': dl.checksums
+      'dl-linux-deb': dl.linux_x64_deb
     };
     Object.entries(linkMap).forEach(([id, url]) => {
       const el = document.getElementById(id);
@@ -120,7 +119,7 @@
             <p class="release-notes">${escapeHtml(item.notes || '')}</p>
             <a class="btn" href="${escapeHtml(item.releaseUrl || fallbackUrl)}" target="_blank" rel="noopener">
               <i data-lucide="arrow-up-right"></i>
-              <span>Rilis</span>
+              <span>Buka</span>
             </a>
           </article>
         `
@@ -204,8 +203,105 @@
     updateLivePill(agents[0]);
   }
 
+  // Interactive Left-Right Dual-Track Slider
+  function setupKineticSlider() {
+    const trackLeft = document.getElementById('slider-track-left');
+    const trackRight = document.getElementById('slider-track-right');
+    const prevBtn = document.getElementById('slider-prev');
+    const nextBtn = document.getElementById('slider-next');
+    const band = document.getElementById('slider-band');
+    if (!trackLeft || !trackRight) return;
+
+    const row1 = [
+      { icon: 'users', title: 'Tim Agent Paralel', sub: 'Bagi tugas otomatis', scenario: 'swarm' },
+      { icon: 'terminal', title: 'Server SSH', sub: 'Terminal multi-host', scenario: 'ssh' },
+      { icon: 'code-2', title: 'Editor & Diff', sub: 'Pantau tiap perubahan', scenario: 'swarm' },
+      { icon: 'globe', title: 'Browser Bawaan', sub: 'Pratinjau langsung', scenario: 'release' },
+      { icon: 'folder-git-2', title: 'Lintas Proyek', sub: 'Banyak folder rapi', scenario: 'swarm' }
+    ];
+
+    const row2 = [
+      { icon: 'hard-drive', title: 'Data Lokal', sub: 'Simpan cepat di komputer', scenario: 'db' },
+      { icon: 'database', title: 'Sync PostgreSQL', sub: 'Opsional 2 arah', scenario: 'db' },
+      { icon: 'bell', title: 'Update Otomatis', sub: 'Notif rilis terbaru', scenario: 'release' },
+      { icon: 'laptop', title: 'Multi-OS', sub: 'Mac, Windows, Linux', scenario: 'release' },
+      { icon: 'shield', title: 'Login GitHub', sub: 'Data tetap pribadi', scenario: 'swarm' }
+    ];
+
+    const makeCards = (items) =>
+      [...items, ...items]
+        .map(
+          (item) => `
+          <div class="slide-card" data-jump-scenario="${item.scenario}">
+            <div class="slide-icon"><i data-lucide="${item.icon}"></i></div>
+            <div>
+              <span class="slide-title">${item.title}</span>
+              <span class="slide-sub">${item.sub}</span>
+            </div>
+          </div>
+        `
+        )
+        .join('');
+
+    trackLeft.innerHTML = makeCards(row1);
+    trackRight.innerHTML = makeCards(row2);
+    renderIcons();
+
+    let offsetA = 0;
+    let offsetB = 0;
+    let velocityBoost = 0;
+    let hoverPaused = false;
+    let lastTs = performance.now();
+
+    function step(ts) {
+      const dt = Math.min(0.05, (ts - lastTs) / 1000);
+      lastTs = ts;
+
+      const halfA = trackLeft.scrollWidth * 0.5 || 1;
+      const halfB = trackRight.scrollWidth * 0.5 || 1;
+
+      if (!hoverPaused || Math.abs(velocityBoost) > 1) {
+        const baseSpeed = hoverPaused ? 0 : 42;
+        offsetA += (baseSpeed + velocityBoost) * dt;
+        offsetB -= (baseSpeed * 0.85 - velocityBoost) * dt;
+        velocityBoost *= Math.pow(0.08, dt);
+
+        offsetA = ((offsetA % halfA) + halfA) % halfA;
+        offsetB = ((offsetB % halfB) + halfB) % halfB;
+
+        trackLeft.style.transform = `translate3d(${-offsetA}px, 0, 0)`;
+        trackRight.style.transform = `translate3d(${-offsetB}px, 0, 0)`;
+      }
+      requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+
+    if (band) {
+      band.addEventListener('mouseenter', () => { hoverPaused = true; });
+      band.addEventListener('mouseleave', () => { hoverPaused = false; });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => { velocityBoost = -520; });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => { velocityBoost = 520; });
+    }
+
+    band?.querySelectorAll('[data-jump-scenario]').forEach((card) => {
+      card.addEventListener('click', () => {
+        const sc = card.getAttribute('data-jump-scenario');
+        const btn = document.querySelector(`[data-scenario="${sc}"]`);
+        if (btn) btn.click();
+        document.getElementById('office')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+  }
+
   syncThemeIcon();
   renderIcons();
   hydrateReleases();
   setupOfficeOverlay();
+  setupKineticSlider();
 })();

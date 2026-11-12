@@ -13,17 +13,17 @@
   const COPY = {
     en: {
       navOffice: 'Office',
-      navFeatures: 'Features',
+      navFeatures: 'Highlights',
       navDownload: 'Download',
       navReleases: 'Releases',
       heroTitle: 'Work alongside an AI team.',
-      heroSub: 'One desktop workspace for your code, servers, and projects.',
+      heroSub: 'One calm desktop workspace for your projects.',
       chooseOs: 'All Platforms',
-      scSwarm: 'Active Team',
-      scRelease: 'Release',
-      scSsh: 'Servers',
-      scDb: 'Storage',
-      sliderTitle: 'Everything in one place.',
+      scSwarm: 'Team',
+      scRelease: 'Build',
+      scSsh: 'Cloud',
+      scDb: 'Workspace',
+      sliderTitle: 'Built for everyday work.',
       dlTitle: 'Download Giato',
       dlVersion: 'Version',
       dlMac: 'macOS Installer',
@@ -41,33 +41,33 @@
       dlWinLabel: (tag) => `Download for Windows (${tag})`,
       dlLinuxLabel: (tag) => `Download for Linux (${tag})`,
       row1: [
-        { icon: 'users', title: 'Parallel AI Team', sub: 'Split tasks across agents', scenario: 'swarm' },
-        { icon: 'terminal', title: 'SSH Servers', sub: 'Multi-host live terminal', scenario: 'ssh' },
-        { icon: 'code-2', title: 'Editor & Diffs', sub: 'Inspect every line cleanly', scenario: 'swarm' },
-        { icon: 'globe', title: 'Built-in Browser', sub: 'Live preview side by side', scenario: 'release' },
-        { icon: 'folder-git-2', title: 'Multi-Project', sub: 'Organized project tabs', scenario: 'swarm' }
+        { icon: 'users', title: 'Parallel AI Team', sub: 'Work across tasks together', scenario: 'swarm' },
+        { icon: 'terminal', title: 'Remote Workspace', sub: 'Connect directly from one app', scenario: 'ssh' },
+        { icon: 'code-2', title: 'Clean Code Review', sub: 'Inspect every change clearly', scenario: 'swarm' },
+        { icon: 'globe', title: 'Live Preview', sub: 'See results side by side', scenario: 'release' },
+        { icon: 'folder-git-2', title: 'Multi-Project', sub: 'Keep every folder tidy', scenario: 'swarm' }
       ],
       row2: [
-        { icon: 'hard-drive', title: 'Local-First', sub: 'Fast on-disk workspace', scenario: 'db' },
-        { icon: 'database', title: 'Optional Sync', sub: 'Two-way Postgres support', scenario: 'db' },
-        { icon: 'bell', title: 'Auto Updates', sub: 'Instant release alerts', scenario: 'release' },
-        { icon: 'laptop', title: 'Cross-Platform', sub: 'Mac, Windows & Linux', scenario: 'release' },
-        { icon: 'shield', title: 'GitHub Sign-In', sub: 'Private local data', scenario: 'swarm' }
+        { icon: 'hard-drive', title: 'Local-First', sub: 'Your work stays on your device', scenario: 'db' },
+        { icon: 'search', title: 'Instant Search', sub: 'Find past sessions in seconds', scenario: 'db' },
+        { icon: 'bell', title: 'Seamless Updates', sub: 'Know when new versions arrive', scenario: 'release' },
+        { icon: 'laptop', title: 'Cross-Platform', sub: 'Mac, Windows, and Linux', scenario: 'release' },
+        { icon: 'sun-moon', title: 'Dark & Light', sub: 'Comfortable day or night', scenario: 'swarm' }
       ]
     },
     id: {
       navOffice: 'Office',
-      navFeatures: 'Fitur',
+      navFeatures: 'Keunggulan',
       navDownload: 'Download',
       navReleases: 'Rilis',
       heroTitle: 'Kerja bareng tim AI.',
-      heroSub: 'Satu ruang kerja desktop untuk kode, server, dan proyek Anda.',
+      heroSub: 'Satu ruang kerja desktop yang tenang untuk proyek Anda.',
       chooseOs: 'Pilih OS',
-      scSwarm: 'Tim Aktif',
+      scSwarm: 'Tim',
       scRelease: 'Rilis',
-      scSsh: 'Server',
-      scDb: 'Database',
-      sliderTitle: 'Semua dalam satu tempat.',
+      scSsh: 'Cloud',
+      scDb: 'Ruang Kerja',
+      sliderTitle: 'Dirancang untuk kerja harian.',
       dlTitle: 'Download Giato',
       dlVersion: 'Versi',
       dlMac: 'Installer macOS',
@@ -85,18 +85,18 @@
       dlWinLabel: (tag) => `Unduh Windows (${tag})`,
       dlLinuxLabel: (tag) => `Unduh Linux (${tag})`,
       row1: [
-        { icon: 'users', title: 'Tim Agent Paralel', sub: 'Bagi tugas otomatis', scenario: 'swarm' },
-        { icon: 'terminal', title: 'Server SSH', sub: 'Terminal multi-host', scenario: 'ssh' },
-        { icon: 'code-2', title: 'Editor & Diff', sub: 'Pantau tiap perubahan', scenario: 'swarm' },
-        { icon: 'globe', title: 'Browser Bawaan', sub: 'Pratinjau langsung', scenario: 'release' },
-        { icon: 'folder-git-2', title: 'Lintas Proyek', sub: 'Banyak folder rapi', scenario: 'swarm' }
+        { icon: 'users', title: 'Tim AI Paralel', sub: 'Kerjakan beberapa tugas sekaligus', scenario: 'swarm' },
+        { icon: 'terminal', title: 'Kerja Jarak Jauh', sub: 'Terhubung langsung dalam satu app', scenario: 'ssh' },
+        { icon: 'code-2', title: 'Tinjau Perubahan', sub: 'Lihat hasil dengan rapi', scenario: 'swarm' },
+        { icon: 'globe', title: 'Pratinjau Langsung', sub: 'Pantau tampilan berdampingan', scenario: 'release' },
+        { icon: 'folder-git-2', title: 'Banyak Proyek', sub: 'Semua folder tersusun rapi', scenario: 'swarm' }
       ],
       row2: [
-        { icon: 'hard-drive', title: 'Data Lokal', sub: 'Simpan cepat di komputer', scenario: 'db' },
-        { icon: 'database', title: 'Sync Opsional', sub: 'Dukungan PostgreSQL', scenario: 'db' },
-        { icon: 'bell', title: 'Update Otomatis', sub: 'Notif rilis terbaru', scenario: 'release' },
-        { icon: 'laptop', title: 'Multi-OS', sub: 'Mac, Windows, Linux', scenario: 'release' },
-        { icon: 'shield', title: 'Login GitHub', sub: 'Data tetap pribadi', scenario: 'swarm' }
+        { icon: 'hard-drive', title: 'Tetap di Perangkat', sub: 'Data kerja ada di komputer Anda', scenario: 'db' },
+        { icon: 'search', title: 'Cari Cepat', sub: 'Temukan riwayat dalam sekejap', scenario: 'db' },
+        { icon: 'bell', title: 'Update Otomatis', sub: 'Info versi baru langsung muncul', scenario: 'release' },
+        { icon: 'laptop', title: 'Lintas Platform', sub: 'Mac, Windows, dan Linux', scenario: 'release' },
+        { icon: 'sun-moon', title: 'Gelap & Terang', sub: 'Nyaman dipakai kapan saja', scenario: 'swarm' }
       ]
     }
   };

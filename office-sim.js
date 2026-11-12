@@ -174,19 +174,19 @@
     en: {
       zones: {
         hub: 'HUB',
-        coderA: 'CODE BAY',
-        coderB: 'ARCHITECT',
-        ssh: 'SERVERS',
-        vault: 'STORAGE',
-        qa: 'RELEASE QA',
+        coderA: 'STUDIO',
+        coderB: 'REVIEW',
+        ssh: 'CLOUD',
+        vault: 'ARCHIVE',
+        qa: 'QUALITY',
         lounge: 'LOUNGE'
       },
       states: {
         active: 'ACTIVE',
         review: 'REVIEW',
-        coding: 'CODING',
+        coding: 'BUILDING',
         online: 'ONLINE',
-        sync: 'SYNC',
+        sync: 'READY',
         testing: 'TESTING',
         release: 'RELEASE',
         standby: 'STANDBY',
@@ -195,38 +195,38 @@
       tasks: {
         coord: 'Delegating team tasks',
         coordSync: 'Syncing with agents',
-        arch: 'Reviewing code diffs',
-        coder: 'Writing app features',
-        ssh: 'Monitoring SSH servers',
-        vault: 'Saving local workspace',
-        qa: 'Running build checks',
-        lounge: 'Quick sync at whiteboard',
+        arch: 'Reviewing changes',
+        coder: 'Building features',
+        ssh: 'Checking live environments',
+        vault: 'Organizing workspace',
+        qa: 'Running quality checks',
+        lounge: 'Quick team sync',
         report: 'Reporting progress to Hub',
-        scRelease1: 'Coordinating multi-OS build',
-        scRelease2: 'Packaging DMG, EXE, MSI, DEB',
-        scRelease3: 'Publishing update feed',
-        scSsh1: 'Opening SSH host session',
-        scSsh2: 'Checking server health',
-        scDb1: 'Indexing local history',
-        scDb2: 'Syncing database deltas'
+        scRelease1: 'Preparing desktop release',
+        scRelease2: 'Packaging app installers',
+        scRelease3: 'Publishing latest release',
+        scSsh1: 'Connecting to cloud environment',
+        scSsh2: 'Checking live service status',
+        scDb1: 'Organizing project history',
+        scDb2: 'Syncing workspace state'
       }
     },
     id: {
       zones: {
         hub: 'HUB',
-        coderA: 'RUANG KODE',
-        coderB: 'ARSITEK',
-        ssh: 'SERVER SSH',
-        vault: 'DATA LOKAL',
-        qa: 'UJI RILIS',
+        coderA: 'STUDIO',
+        coderB: 'TINJAU',
+        ssh: 'CLOUD',
+        vault: 'ARSIP',
+        qa: 'KUALITAS',
         lounge: 'LOUNGE'
       },
       states: {
         active: 'AKTIF',
-        review: 'REVIEW',
-        coding: 'CODING',
+        review: 'TINJAU',
+        coding: 'KERJA',
         online: 'ONLINE',
-        sync: 'SYNC',
+        sync: 'SIAP',
         testing: 'UJI',
         release: 'RILIS',
         standby: 'SIAGA',
@@ -235,20 +235,20 @@
       tasks: {
         coord: 'Membagi tugas ke tim',
         coordSync: 'Koordinasi cepat dengan tim',
-        arch: 'Memeriksa perubahan kode',
-        coder: 'Menulis fitur aplikasi',
-        ssh: 'Memantau server SSH',
-        vault: 'Menyimpan data lokal',
-        qa: 'Menguji paket aplikasi',
-        lounge: 'Sinkronisasi singkat di lounge',
+        arch: 'Meninjau perubahan',
+        coder: 'Membangun fitur baru',
+        ssh: 'Memantau layanan aktif',
+        vault: 'Merapikan ruang kerja',
+        qa: 'Menguji kualitas aplikasi',
+        lounge: 'Sinkronisasi singkat',
         report: 'Melaporkan hasil ke Hub',
-        scRelease1: 'Mengawal rilis lintas OS',
-        scRelease2: 'Membuat DMG, EXE, MSI, DEB',
-        scRelease3: 'Memperbarui feed update',
-        scSsh1: 'Membuka terminal SSH server',
-        scSsh2: 'Memeriksa layanan server',
-        scDb1: 'Merapikan indeks lokal',
-        scDb2: 'Sinkronisasi database'
+        scRelease1: 'Menyiapkan rilis aplikasi',
+        scRelease2: 'Mengemas paket installer',
+        scRelease3: 'Memperbarui versi terbaru',
+        scSsh1: 'Menghubungkan ke layanan cloud',
+        scSsh2: 'Memeriksa status layanan',
+        scDb1: 'Merapikan riwayat proyek',
+        scDb2: 'Menyimpan status kerja'
       }
     }
   };
@@ -268,9 +268,9 @@
   const agents = [
     { id: 'orchestrator', name: 'Coordinator', color: '#7557f6', zone: 'hub', gx: ZONES.hub.standX, gy: ZONES.hub.standY, waypoints: [], stateKey: 'active', taskKey: 'coord', timer: 2.2 },
     { id: 'architect', name: 'Architect', color: '#38bdf8', zone: 'coderB', gx: ZONES.coderB.standX, gy: ZONES.coderB.standY, waypoints: [], stateKey: 'review', taskKey: 'arch', timer: 3.8 },
-    { id: 'coder', name: 'Coder', color: '#a78bfa', zone: 'coderA', gx: ZONES.coderA.standX, gy: ZONES.coderA.standY, waypoints: [], stateKey: 'coding', taskKey: 'coder', timer: 3.1 },
-    { id: 'sshops', name: 'Server Ops', color: '#10b981', zone: 'ssh', gx: ZONES.ssh.standX, gy: ZONES.ssh.standY, waypoints: [], stateKey: 'online', taskKey: 'ssh', timer: 4.5 },
-    { id: 'memory', name: 'Database', color: '#f59e0b', zone: 'vault', gx: ZONES.vault.standX, gy: ZONES.vault.standY, waypoints: [], stateKey: 'sync', taskKey: 'vault', timer: 4.0 },
+    { id: 'coder', name: 'Builder', color: '#a78bfa', zone: 'coderA', gx: ZONES.coderA.standX, gy: ZONES.coderA.standY, waypoints: [], stateKey: 'coding', taskKey: 'coder', timer: 3.1 },
+    { id: 'sshops', name: 'Cloud Ops', color: '#10b981', zone: 'ssh', gx: ZONES.ssh.standX, gy: ZONES.ssh.standY, waypoints: [], stateKey: 'online', taskKey: 'ssh', timer: 4.5 },
+    { id: 'memory', name: 'Archive', color: '#f59e0b', zone: 'vault', gx: ZONES.vault.standX, gy: ZONES.vault.standY, waypoints: [], stateKey: 'sync', taskKey: 'vault', timer: 4.0 },
     { id: 'verifier', name: 'Tester', color: '#fb7185', zone: 'qa', gx: ZONES.qa.standX, gy: ZONES.qa.standY, waypoints: [], stateKey: 'testing', taskKey: 'qa', timer: 2.9 }
   ];
 

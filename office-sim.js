@@ -72,7 +72,7 @@
 
   function iso(gx, gy, gz = 0) {
     const cx = width * 0.5 + camX;
-    const cy = height * 0.23 + camY;
+    const cy = height * 0.18 + camY;
     const sx = cx + (gx - gy) * (TILE_W * 0.5) * zoom;
     const sy = cy + (gx + gy) * (TILE_H * 0.5) * zoom - gz * TILE_H * zoom;
     return { x: sx, y: sy };
@@ -80,7 +80,7 @@
 
   function screenToGrid(sx, sy) {
     const cx = width * 0.5 + camX;
-    const cy = height * 0.23 + camY;
+    const cy = height * 0.18 + camY;
     const dx = (sx - cx) / ((TILE_W * 0.5) * zoom);
     const dy = (sy - cy) / ((TILE_H * 0.5) * zoom);
     return { gx: (dx + dy) * 0.5, gy: (dy - dx) * 0.5 };
@@ -142,13 +142,13 @@
 
   // Zones & waypoints (walkable corridor lanes keep movement clean)
   const ZONES = {
-    hub: { gx: 6.0, gy: 2.2, standX: 5.3, standY: 2.8, label: 'ORCHESTRATOR HUB' },
-    coderA: { gx: 2.0, gy: 2.4, standX: 2.3, standY: 3.5, label: 'CODE BAY A' },
-    coderB: { gx: 2.0, gy: 6.2, standX: 2.8, standY: 6.8, label: 'ARCHITECT BAY' },
-    ssh: { gx: 9.8, gy: 2.0, standX: 9.1, standY: 3.1, label: 'SSH SERVER RACK' },
-    vault: { gx: 9.6, gy: 6.4, standX: 8.8, standY: 6.8, label: 'SQLITE FTS5 / PG' },
-    qa: { gx: 5.8, gy: 7.4, standX: 5.9, standY: 6.7, label: 'RELEASE PIPELINE' },
-    lounge: { gx: 5.8, gy: 4.8, standX: 5.8, standY: 4.8, label: 'SYNC LOUNGE' }
+    hub: { gx: 6.0, gy: 2.2, standX: 5.3, standY: 2.8, label: 'HUB' },
+    coderA: { gx: 2.0, gy: 2.4, standX: 2.3, standY: 3.5, label: 'KODE' },
+    coderB: { gx: 2.0, gy: 6.2, standX: 2.8, standY: 6.8, label: 'ARSITEK' },
+    ssh: { gx: 9.8, gy: 2.0, standX: 9.1, standY: 3.1, label: 'SERVER SSH' },
+    vault: { gx: 9.6, gy: 6.4, standX: 8.8, standY: 6.8, label: 'DATABASE' },
+    qa: { gx: 5.8, gy: 7.4, standX: 5.9, standY: 6.7, label: 'UJI RILIS' },
+    lounge: { gx: 5.8, gy: 4.8, standX: 5.8, standY: 4.8, label: 'LOUNGE' }
   };
 
   // Agents roster
@@ -156,7 +156,7 @@
     {
       id: 'orchestrator',
       name: 'Coordinator',
-      role: 'Task Swarm Lead',
+      role: 'Koordinator Tim',
       color: '#7557f6',
       zone: 'hub',
       gx: ZONES.hub.standX,
@@ -164,20 +164,16 @@
       targetX: ZONES.hub.standX,
       targetY: ZONES.hub.standY,
       waypoints: [],
-      state: 'DELEGATING',
-      task: 'Routing workspace swarm',
-      model: 'Coordinator Core',
-      logs: [
-        'Swarm board initialized (6 agents)',
-        'Pinned Coder-01 -> electron-builder targets',
-        'Streaming update.json manifest'
-      ],
+      state: 'AKTIF',
+      task: 'Membagi tugas ke tim agent',
+      model: 'Core',
+      logs: ['Membagi tugas ke tim agent'],
       timer: 2.2
     },
     {
       id: 'architect',
       name: 'Architect',
-      role: 'Specs & Git Diffs',
+      role: 'Tinjau Kode',
       color: '#38bdf8',
       zone: 'coderB',
       gx: ZONES.coderB.standX,
@@ -185,20 +181,16 @@
       targetX: ZONES.coderB.standX,
       targetY: ZONES.coderB.standY,
       waypoints: [],
-      state: 'REVIEWING',
-      task: 'Inspecting git diff & AST',
-      model: 'Reasoning Engine',
-      logs: [
-        'Parsed workspace layout diff (+42/-11)',
-        'Verified IPC contract types',
-        'No duplicate helpers detected'
-      ],
+      state: 'REVIEW',
+      task: 'Memeriksa struktur dan perubahan file',
+      model: 'Reviewer',
+      logs: ['Memeriksa struktur dan perubahan file'],
       timer: 3.8
     },
     {
       id: 'coder',
-      name: 'Coder-01',
-      role: 'Code & Build Worker',
+      name: 'Coder',
+      role: 'Penulis Kode',
       color: '#a78bfa',
       zone: 'coderA',
       gx: ZONES.coderA.standX,
@@ -207,19 +199,15 @@
       targetY: ZONES.coderA.standY,
       waypoints: [],
       state: 'CODING',
-      task: 'Compiling TypeScript + Vite',
-      model: 'Code Specialist',
-      logs: [
-        'vite build: 3,718 modules bundled',
-        'Patched preload IPC bindings',
-        'Running tsc --noEmit (0 errors)'
-      ],
+      task: 'Menulis komponen dan fitur aplikasi',
+      model: 'Builder',
+      logs: ['Menulis komponen dan fitur aplikasi'],
       timer: 3.1
     },
     {
       id: 'sshops',
-      name: 'SSH-Ops',
-      role: 'Server & Tunnel Agent',
+      name: 'Server Ops',
+      role: 'SSH & Deploy',
       color: '#10b981',
       zone: 'ssh',
       gx: ZONES.ssh.standX,
@@ -227,20 +215,16 @@
       targetX: ZONES.ssh.standX,
       targetY: ZONES.ssh.standY,
       waypoints: [],
-      state: 'CONNECTED',
-      task: 'Tailing systemd via SSH',
-      model: 'Ops Shell Agent',
-      logs: [
-        'SSH tunnel -> prod-node-01:22 OK',
-        'pm2 status: 4 workers online',
-        'RAM 41% | Disk 28% | Zero errors'
-      ],
+      state: 'ONLINE',
+      task: 'Memantau server lewat SSH',
+      model: 'Ops',
+      logs: ['Memantau server lewat SSH'],
       timer: 4.5
     },
     {
       id: 'memory',
-      name: 'Memory-DB',
-      role: 'SQLite FTS5 & Postgres',
+      name: 'Database',
+      role: 'Penyimpanan',
       color: '#f59e0b',
       zone: 'vault',
       gx: ZONES.vault.standX,
@@ -248,20 +232,16 @@
       targetX: ZONES.vault.standX,
       targetY: ZONES.vault.standY,
       waypoints: [],
-      state: 'INDEXING',
-      task: 'Syncing encrypted PG deltas',
-      model: 'Storage Engine',
-      logs: [
-        'SQLite WAL checkpoint clean (0.4ms)',
-        'FTS5 index refreshed: 1,284 messages',
-        'Postgres 2-way sync idle & ready'
-      ],
+      state: 'SYNC',
+      task: 'Menyimpan riwayat di disk lokal',
+      model: 'Storage',
+      logs: ['Menyimpan riwayat di disk lokal'],
       timer: 4.0
     },
     {
       id: 'verifier',
-      name: 'Verifier',
-      role: 'QA & Release Packaging',
+      name: 'Tester',
+      role: 'Uji & Rilis',
       color: '#fb7185',
       zone: 'qa',
       gx: ZONES.qa.standX,
@@ -270,13 +250,9 @@
       targetY: ZONES.qa.standY,
       waypoints: [],
       state: 'TESTING',
-      task: 'Checking 63/63 unit tests',
-      model: 'Release Runner',
-      logs: [
-        'Unit suite: 63 passed, 0 failed',
-        'Electron fuses verified cleanly',
-        'DMG / EXE / MSI / AppImage / DEB green'
-      ],
+      task: 'Menguji aplikasi sebelum dirilis',
+      model: 'QA',
+      logs: ['Menguji aplikasi sebelum dirilis'],
       timer: 2.9
     }
   ];
@@ -331,51 +307,47 @@
 
   const SCENARIOS = {
     swarm: () => {
-      sendAgentTo(agents[0], 'hub', 'Coordinating parallel swarm', 'DELEGATING');
-      sendAgentTo(agents[1], 'coderB', 'Auditing workspace diffs', 'REVIEWING');
-      sendAgentTo(agents[2], 'coderA', 'Implementing React shell', 'CODING');
-      sendAgentTo(agents[3], 'ssh', 'Monitoring VPS nodes via SSH', 'CONNECTED');
-      sendAgentTo(agents[4], 'vault', 'Indexing SQLite FTS5 store', 'INDEXING');
-      sendAgentTo(agents[5], 'qa', 'Running 63 regression assertions', 'TESTING');
+      sendAgentTo(agents[0], 'hub', 'Membagi tugas ke tim', 'AKTIF');
+      sendAgentTo(agents[1], 'coderB', 'Memeriksa perubahan kode', 'REVIEW');
+      sendAgentTo(agents[2], 'coderA', 'Menulis fitur baru', 'CODING');
+      sendAgentTo(agents[3], 'ssh', 'Memantau server lewat SSH', 'ONLINE');
+      sendAgentTo(agents[4], 'vault', 'Menjaga penyimpanan lokal', 'SYNC');
+      sendAgentTo(agents[5], 'qa', 'Menjalankan pengujian', 'TESTING');
       spawnPacket('hub', 'coderA', '#7557f6', 'brief');
       spawnPacket('hub', 'ssh', '#10b981', 'ssh');
-      spawnPacket('hub', 'vault', '#f59e0b', 'fts5');
+      spawnPacket('hub', 'vault', '#f59e0b', 'db');
     },
     release: () => {
-      sendAgentTo(agents[0], 'qa', 'Supervising multi-OS release', 'SHIPPING');
-      sendAgentTo(agents[2], 'coderA', 'Bundling dist-electron + vite', 'BUNDLING');
-      sendAgentTo(agents[5], 'qa', 'Building DMG, EXE, MSI, AppImage', 'PACKAGING');
-      sendAgentTo(agents[1], 'hub', 'Generating SHA256SUMS + feed', 'SIGNING');
-      sendAgentTo(agents[4], 'vault', 'Updating update.json manifest', 'PUBLISHING');
-      sendAgentTo(agents[3], 'lounge', 'Standby for post-release deploy', 'STANDBY');
-      spawnPacket('coderA', 'qa', '#a78bfa', 'asar');
-      spawnPacket('qa', 'hub', '#fb7185', 'tag v0.2');
-      pushAgentLog(agents[5], 'GitHub Actions matrix started (macOS/Win/Linux)');
+      sendAgentTo(agents[0], 'qa', 'Mengawal rilis lintas OS', 'RILIS');
+      sendAgentTo(agents[2], 'coderA', 'Membundel aplikasi desktop', 'BUILD');
+      sendAgentTo(agents[5], 'qa', 'Membuat DMG, EXE, MSI, AppImage', 'KEMAS');
+      sendAgentTo(agents[1], 'hub', 'Menyiapkan catatan rilis', 'SIGN');
+      sendAgentTo(agents[4], 'vault', 'Memperbarui feed update', 'PUBLISH');
+      sendAgentTo(agents[3], 'lounge', 'Siaga deploy server', 'SIAGA');
+      spawnPacket('coderA', 'qa', '#a78bfa', 'build');
+      spawnPacket('qa', 'hub', '#fb7185', 'release');
     },
     ssh: () => {
-      sendAgentTo(agents[3], 'ssh', 'Executing remote deploy script', 'TUNNELING');
-      sendAgentTo(agents[0], 'ssh', 'Verifying container health', 'AUDITING');
-      sendAgentTo(agents[4], 'vault', 'Rotating encrypted SSH host logs', 'SYNCING');
-      sendAgentTo(agents[2], 'coderB', 'Patching nginx reverse proxy', 'EDITING');
-      sendAgentTo(agents[5], 'ssh', 'Probing HTTPS health endpoint', 'PROBING');
-      spawnPacket('hub', 'ssh', '#10b981', 'ssh -t');
-      spawnPacket('ssh', 'vault', '#f59e0b', 'pg_sync');
-      pushAgentLog(agents[3], 'Connected to prod-gateway (latency 18ms)');
+      sendAgentTo(agents[3], 'ssh', 'Membuka terminal SSH server', 'AKTIF');
+      sendAgentTo(agents[0], 'ssh', 'Memeriksa layanan server', 'CEK');
+      sendAgentTo(agents[4], 'vault', 'Menyimpan log sesi host', 'SIMPAN');
+      sendAgentTo(agents[2], 'coderB', 'Menyesuaikan konfigurasi server', 'EDIT');
+      sendAgentTo(agents[5], 'ssh', 'Menguji respon layanan', 'UJI');
+      spawnPacket('hub', 'ssh', '#10b981', 'ssh');
+      spawnPacket('ssh', 'vault', '#f59e0b', 'log');
     },
     db: () => {
-      sendAgentTo(agents[4], 'vault', 'Running SQLite WAL checkpoint', 'CHECKPOINT');
-      sendAgentTo(agents[1], 'vault', 'Verifying 2-way Postgres merge', 'MERGING');
-      sendAgentTo(agents[0], 'lounge', 'Reviewing offline-first telemetry', 'SYNCING');
-      sendAgentTo(agents[5], 'qa', 'Testing zero-data-loss logout', 'VERIFYING');
-      spawnPacket('coderA', 'vault', '#f59e0b', 'wal');
-      spawnPacket('vault', 'hub', '#38bdf8', 'commit');
-      pushAgentLog(agents[4], 'Encrypted delta pushed: 0 conflicts');
+      sendAgentTo(agents[4], 'vault', 'Merapikan indeks lokal', 'INDEKS');
+      sendAgentTo(agents[1], 'vault', 'Mencocokkan sinkronisasi data', 'SYNC');
+      sendAgentTo(agents[0], 'lounge', 'Meninjau status penyimpanan', 'CEK');
+      sendAgentTo(agents[5], 'qa', 'Memastikan data tetap aman', 'UJI');
+      spawnPacket('coderA', 'vault', '#f59e0b', 'simpan');
+      spawnPacket('vault', 'hub', '#38bdf8', 'siap');
     }
   };
 
   function autonomousTick(dt) {
     agents.forEach((a) => {
-      // Walk along waypoints
       if (a.waypoints.length > 0) {
         const wp = a.waypoints[0];
         const dx = wp.x - a.gx;
@@ -396,33 +368,29 @@
       a.timer -= dt;
       if (a.timer <= 0) {
         tasksCompleted += 1;
-        const hudTasks = document.getElementById('hud-tasks');
-        if (hudTasks) hudTasks.textContent = String(tasksCompleted);
-
-        // Rotate agents organically across stations so the office feels genuinely alive
         const r = Math.random();
         if (a.id === 'orchestrator') {
           const targets = ['hub', 'lounge', 'qa', 'coderA'];
           const z = targets[Math.floor(Math.random() * targets.length)];
-          sendAgentTo(a, z, z === 'lounge' ? 'Syncing agent statuses' : 'Delegating task slice', 'COORDINATING');
-          spawnPacket('hub', z === 'hub' ? 'coderA' : z, a.color, 'assign');
-          pushAgentLog(a, `Dispatched subtask -> ${ZONES[z].label}`);
+          sendAgentTo(a, z, z === 'lounge' ? 'Koordinasi cepat dengan tim' : 'Mengirim tugas baru', 'AKTIF');
+          spawnPacket('hub', z === 'hub' ? 'coderA' : z, a.color, 'tugas');
         } else if (r < 0.24) {
-          sendAgentTo(a, 'lounge', 'Brief sync at whiteboard', 'SYNCING');
-          pushAgentLog(a, 'Joined quick standup at sync lounge');
+          sendAgentTo(a, 'lounge', 'Sinkronisasi singkat di lounge', 'DISKUSI');
         } else {
           const homeMap = {
-            architect: ['coderB', 'Checking AST dependencies', 'REVIEWING'],
-            coder: ['coderA', 'Writing TypeScript module', 'CODING'],
-            sshops: ['ssh', 'Streaming journalctl -f', 'CONNECTED'],
-            memory: ['vault', 'Vacuuming SQLite FTS5', 'INDEXING'],
-            verifier: ['qa', 'Verifying SHA-256 build', 'TESTING']
+            architect: ['coderB', 'Meninjau struktur kode', 'REVIEW'],
+            coder: ['coderA', 'Menulis modul aplikasi', 'CODING'],
+            sshops: ['ssh', 'Memantau koneksi server', 'ONLINE'],
+            memory: ['vault', 'Menyimpan riwayat percakapan', 'SYNC'],
+            verifier: ['qa', 'Menguji paket installer', 'TESTING']
           };
-          const [hz, ht, hs] = homeMap[a.id] || ['hub', 'Executing task', 'ACTIVE'];
+          const [hz, ht, hs] = homeMap[a.id] || ['hub', 'Menjalankan tugas', 'AKTIF'];
           const collab = r < 0.45 ? 'hub' : hz;
-          sendAgentTo(a, collab, collab === 'hub' ? 'Reporting output to Coordinator' : ht, hs);
+          sendAgentTo(a, collab, collab === 'hub' ? 'Melaporkan hasil ke Coordinator' : ht, hs);
           spawnPacket(collab === 'hub' ? hz : 'hub', collab, a.color, 'sync');
-          pushAgentLog(a, collab === 'hub' ? 'Synced deliverable with Coordinator' : ht);
+        }
+        if (a.id === selectedAgentId) {
+          window.dispatchEvent(new CustomEvent('giato:agent-updated', { detail: a }));
         }
       }
     });
@@ -696,8 +664,8 @@
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    // Responsive auto zoom
-    zoom = Math.max(0.68, Math.min(1.12, width / 840));
+    // Responsive auto zoom for full-width canvas
+    zoom = Math.max(0.8, Math.min(1.42, Math.min(width / 820, height / 430)));
   }
 
   let lastTs = performance.now();

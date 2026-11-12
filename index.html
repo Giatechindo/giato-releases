@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Giato AI Desktop — Autonomous Agent Workspace & SSH Workbench</title>
-  <meta name="description" content="Workspace desktop native untuk orkestrasi multi-agent AI, manajemen server SSH, SQLite FTS5 + PostgreSQL sync, dan build pipeline lintas OS." />
-  <meta property="og:title" content="Giato AI Desktop — Giatechindo" />
-  <meta property="og:description" content="Satu aplikasi desktop untuk mengelola swarm agent AI, terminal SSH server, database lokal-first, dan preview kode real-time." />
+  <title>Giato — Ruang Kerja AI</title>
+  <meta name="description" content="Satu ruang kerja desktop untuk bekerja bersama tim agent AI." />
   <link rel="icon" type="image/png" href="./assets/giato-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,392 +13,239 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="container topbar-inner">
-      <a class="brand" href="#">
-        <img src="./assets/giato-icon.png" alt="Giato logo" />
-        <span class="brand-name">Giato</span>
-        <span class="brand-tag" data-version-badge>v0.1.0</span>
+    <a class="brand" href="#">
+      <img src="./assets/giato-icon.png" alt="Giato" />
+      <span>Giato</span>
+      <span class="brand-ver" data-version-badge>v0.1.0</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navigasi">
+      <a href="#office">Office</a>
+      <a href="#slider-band">Fitur</a>
+      <a href="#downloads">Download</a>
+      <a href="#releases">Rilis</a>
+    </nav>
+
+    <div class="topbar-right">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Ganti tema">
+        <i data-lucide="sun"></i>
+      </button>
+      <a class="btn btn-primary" href="#downloads">
+        <i data-lucide="download"></i>
+        <span>Download</span>
       </a>
-
-      <nav class="nav-links" aria-label="Navigasi utama">
-        <a href="#virtual-office">Virtual Office</a>
-        <a href="#capabilities">Arsitektur</a>
-        <a href="#downloads">Unduhan</a>
-        <a href="#releases">Rilis</a>
-      </nav>
-
-      <div class="topbar-actions">
-        <button id="theme-toggle" class="icon-btn" type="button" aria-label="Ganti tema terang/gelap">
-          <i data-lucide="sun"></i>
-        </button>
-        <a class="btn btn-primary" href="#downloads">
-          <i data-lucide="download"></i>
-          <span>Download</span>
-        </a>
-      </div>
     </div>
   </header>
 
+  <div id="notice-bar" class="notice-strip" hidden>
+    <div class="notice-strip-left">
+      <i data-lucide="sparkles"></i>
+      <span id="notice-text"></span>
+    </div>
+    <a id="notice-link" class="btn" style="height:28px;font-size:12px;" href="#downloads">
+      <span>Lihat</span>
+    </a>
+  </div>
+
   <main>
-    <div class="container">
-      <div id="notice-bar" class="notice-bar" hidden>
-        <div class="notice-left">
-          <i data-lucide="bell-ring"></i>
-          <span id="notice-text" class="notice-text"></span>
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Kerja bareng tim AI.</h1>
+        <p class="hero-sub">Satu ruang kerja desktop untuk kode, server, dan proyek Anda.</p>
+      </div>
+
+      <div class="hero-actions">
+        <div class="hero-btn-group">
+          <a id="hero-primary-download" class="btn btn-primary btn-lg" href="#downloads">
+            <i data-lucide="download"></i>
+            <span id="hero-download-label">Unduh Giato</span>
+          </a>
+          <a class="btn btn-lg" href="#downloads">
+            <i data-lucide="layers"></i>
+            <span>Pilih OS</span>
+          </a>
         </div>
-        <a id="notice-link" class="notice-link" href="#downloads">
-          <span>Detail</span>
-          <i data-lucide="arrow-up-right"></i>
+        <div class="hero-formats">
+          <a href="#downloads">macOS</a>
+          <a href="#downloads">Windows</a>
+          <a href="#downloads">Linux</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="office" class="office-stage" aria-label="Simulasi Virtual AI Office">
+      <canvas id="office-canvas"></canvas>
+
+      <div class="stage-top-bar">
+        <div class="live-pill">
+          <span id="live-agent-dot" class="live-dot"></span>
+          <strong id="live-agent-name">Coordinator</strong>
+          <span aria-hidden="true">·</span>
+          <span id="live-agent-task">Membagi tugas ke tim</span>
+        </div>
+
+        <div class="stage-tools">
+          <button id="sim-pause" class="icon-btn" type="button" aria-label="Jeda simulasi">
+            <i data-lucide="pause"></i>
+          </button>
+          <button id="sim-reset" class="icon-btn" type="button" aria-label="Reset kamera">
+            <i data-lucide="rotate-ccw"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="stage-dock">
+        <div class="dock-group">
+          <button type="button" class="dock-btn is-active" data-scenario="swarm">
+            <i data-lucide="workflow"></i>
+            <span>Tim Aktif</span>
+          </button>
+          <button type="button" class="dock-btn" data-scenario="release">
+            <i data-lucide="package"></i>
+            <span>Rilis</span>
+          </button>
+          <button type="button" class="dock-btn" data-scenario="ssh">
+            <i data-lucide="server"></i>
+            <span>Server</span>
+          </button>
+          <button type="button" class="dock-btn" data-scenario="db">
+            <i data-lucide="database"></i>
+            <span>Database</span>
+          </button>
+        </div>
+
+        <div class="dock-divider" aria-hidden="true"></div>
+
+        <div id="dock-agents" class="dock-group dock-agent-group"></div>
+      </div>
+    </section>
+
+    <section id="slider-band" class="slider-band" aria-label="Kemampuan Giato">
+      <div class="slider-head">
+        <h2>Semua dalam satu tempat.</h2>
+        <div class="slider-controls">
+          <button id="slider-prev" class="icon-btn" type="button" aria-label="Geser ke kiri">
+            <i data-lucide="chevron-left"></i>
+          </button>
+          <button id="slider-next" class="icon-btn" type="button" aria-label="Geser ke kanan">
+            <i data-lucide="chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="marquee-stack">
+        <div class="marquee-viewport">
+          <div id="slider-track-left" class="marquee-track"></div>
+        </div>
+        <div class="marquee-viewport">
+          <div id="slider-track-right" class="marquee-track"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="downloads" class="section-band">
+      <div class="band-head">
+        <div>
+          <h2>Download Giato</h2>
+          <p class="band-sub">Versi <span class="mono" data-version-badge>v0.1.0</span></p>
+        </div>
+      </div>
+
+      <div class="download-grid">
+        <article class="os-card" data-os="mac">
+          <div class="os-head">
+            <div class="os-title">
+              <div class="slide-icon" style="width:36px;height:36px;"><i data-lucide="laptop"></i></div>
+              <div>
+                <h3>macOS</h3>
+                <small>Apple Silicon</small>
+              </div>
+            </div>
+            <span class="os-badge">Desktop</span>
+          </div>
+          <div class="os-actions">
+            <a id="dl-mac-dmg" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+              <span>macOS Installer</span>
+              <small>.dmg</small>
+              <i data-lucide="arrow-down-to-line"></i>
+            </a>
+          </div>
+        </article>
+
+        <article class="os-card" data-os="win">
+          <div class="os-head">
+            <div class="os-title">
+              <div class="slide-icon" style="width:36px;height:36px;"><i data-lucide="monitor"></i></div>
+              <div>
+                <h3>Windows</h3>
+                <small>Windows 10 / 11</small>
+              </div>
+            </div>
+            <span class="os-badge">Desktop</span>
+          </div>
+          <div class="os-actions">
+            <a id="dl-win-exe" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+              <span>Windows Setup</span>
+              <small>.exe</small>
+              <i data-lucide="arrow-down-to-line"></i>
+            </a>
+            <a id="dl-win-msi" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+              <span>Windows MSI</span>
+              <small>.msi</small>
+              <i data-lucide="arrow-down-to-line"></i>
+            </a>
+          </div>
+        </article>
+
+        <article class="os-card" data-os="linux">
+          <div class="os-head">
+            <div class="os-title">
+              <div class="slide-icon" style="width:36px;height:36px;"><i data-lucide="terminal"></i></div>
+              <div>
+                <h3>Linux</h3>
+                <small>64-bit</small>
+              </div>
+            </div>
+            <span class="os-badge">Desktop</span>
+          </div>
+          <div class="os-actions">
+            <a id="dl-linux-appimage" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+              <span>AppImage</span>
+              <small>.AppImage</small>
+              <i data-lucide="arrow-down-to-line"></i>
+            </a>
+            <a id="dl-linux-deb" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+              <span>Ubuntu / Debian</span>
+              <small>.deb</small>
+              <i data-lucide="arrow-down-to-line"></i>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="releases" class="section-band">
+      <div class="band-head">
+        <div>
+          <h2>Rilis</h2>
+        </div>
+        <a class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+          <i data-lucide="github"></i>
+          <span>Semua Rilis</span>
         </a>
       </div>
-    </div>
 
-    <section class="hero" id="virtual-office">
-      <div class="container">
-        <div class="hero-top">
-          <div>
-            <div class="eyebrow">
-              <span class="eyebrow-dot"></span>
-              <span>Local-First Desktop · Mac, Windows &amp; Linux</span>
-            </div>
-            <h1>Satu ruang kerja desktop.<br />Satu tim agent AI otonom.</h1>
-            <p class="hero-sub">
-              Giato menyatukan orkestrasi multi-agent, terminal SSH lintas server, SQLite FTS5 + sinkronisasi PostgreSQL opsional, diff Git, dan peramban terintegrasi dalam satu aplikasi native.
-            </p>
-          </div>
-
-          <div class="hero-cta-panel">
-            <div class="cta-row">
-              <a id="hero-primary-download" class="btn btn-primary btn-lg" href="#downloads">
-                <i data-lucide="download"></i>
-                <span id="hero-download-label">Unduh Giato Desktop</span>
-              </a>
-              <a class="btn btn-lg" href="#downloads">
-                <i data-lucide="layers"></i>
-                <span>Semua OS</span>
-              </a>
-            </div>
-            <div class="platform-pills">
-              <span>Format rilis:</span>
-              <a class="platform-pill" href="#downloads"><i data-lucide="laptop"></i><span>.dmg</span></a>
-              <a class="platform-pill" href="#downloads"><i data-lucide="monitor"></i><span>.exe / .msi</span></a>
-              <a class="platform-pill" href="#downloads"><i data-lucide="terminal"></i><span>.AppImage / .deb</span></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Interactive 2.5D Virtual AI Agent Office -->
-        <div class="studio-frame">
-          <div class="studio-chrome">
-            <div class="chrome-left">
-              <div class="traffic-lights" aria-hidden="true">
-                <span></span><span></span><span></span>
-              </div>
-              <div class="chrome-title">
-                <i data-lucide="cpu"></i>
-                <span>giato://virtual-agent-office · live-swarm-simulation</span>
-              </div>
-            </div>
-
-            <div class="scenario-bar" role="toolbar" aria-label="Skenario simulasi office">
-              <button type="button" class="scenario-btn is-active" data-scenario="swarm">
-                <i data-lucide="workflow"></i>
-                <span>Multi-Agent Swarm</span>
-              </button>
-              <button type="button" class="scenario-btn" data-scenario="release">
-                <i data-lucide="package-check"></i>
-                <span>Auto-Release Build</span>
-              </button>
-              <button type="button" class="scenario-btn" data-scenario="ssh">
-                <i data-lucide="server"></i>
-                <span>SSH Server Ops</span>
-              </button>
-              <button type="button" class="scenario-btn" data-scenario="db">
-                <i data-lucide="database"></i>
-                <span>SQLite + PG Sync</span>
-              </button>
-              <button type="button" class="scenario-btn" id="sim-pause">
-                <i data-lucide="pause"></i>
-                <span>Pause</span>
-              </button>
-              <button type="button" class="scenario-btn" id="sim-reset" aria-label="Reset posisi kamera">
-                <i data-lucide="rotate-ccw"></i>
-              </button>
-            </div>
-          </div>
-
-          <div class="studio-body">
-            <div class="canvas-stage">
-              <canvas id="office-canvas" aria-label="Simulasi interaktif 2.5D virtual AI agent office"></canvas>
-              <div class="stage-hud-top">
-                <div class="hud-chip">
-                  <i data-lucide="bot"></i>
-                  <span>6 Agents Online</span>
-                </div>
-                <div class="hud-chip">
-                  <i data-lucide="check-circle-2"></i>
-                  <span>Tasks: <strong id="hud-tasks">18</strong></span>
-                </div>
-                <div class="hud-chip">
-                  <i data-lucide="hard-drive"></i>
-                  <span>Local WAL · Zero Lock-In</span>
-                </div>
-              </div>
-              <div class="stage-hint">
-                Klik agent untuk inspeksi · Klik lantai untuk mengarahkan agent · Geser untuk pan kamera
-              </div>
-            </div>
-
-            <aside class="inspector-pane" aria-label="Inspektor telemetri agent">
-              <div class="inspector-head">
-                <span>AGENT INSPECTOR</span>
-                <span class="mono">LIVE</span>
-              </div>
-
-              <div class="agent-tabs" id="agent-tabs"></div>
-
-              <div class="inspector-detail">
-                <div class="agent-header">
-                  <div>
-                    <h3 class="agent-title" id="ins-name">Coordinator</h3>
-                    <div class="agent-role" id="ins-role">Task Swarm Lead</div>
-                  </div>
-                  <span class="agent-state-badge" id="ins-state">DELEGATING</span>
-                </div>
-
-                <div class="telemetry-kv">
-                  <div class="kv-box">
-                    <span class="kv-label">Zona Aktif</span>
-                    <span class="kv-val" id="ins-zone">HUB</span>
-                  </div>
-                  <div class="kv-box">
-                    <span class="kv-label">Tugas Saat Ini</span>
-                    <span class="kv-val" id="ins-task">Routing swarm</span>
-                  </div>
-                </div>
-
-                <div class="agent-log" id="ins-log" aria-live="polite"></div>
-
-                <div class="quick-dispatch">
-                  <button type="button" class="mini-btn" data-dispatch-zone="ssh" data-dispatch-task="Inspecting SSH server logs" data-dispatch-state="SSH-AUDIT">
-                    <i data-lucide="terminal"></i>
-                    <span>Kirim ke SSH Rack</span>
-                  </button>
-                  <button type="button" class="mini-btn" data-dispatch-zone="vault" data-dispatch-task="Reindexing FTS5 + PG sync" data-dispatch-state="SYNCING">
-                    <i data-lucide="database"></i>
-                    <span>Kirim ke DB Vault</span>
-                  </button>
-                  <button type="button" class="mini-btn" data-dispatch-zone="qa" data-dispatch-task="Running DMG/EXE/MSI build" data-dispatch-state="BUILDING">
-                    <i data-lucide="package"></i>
-                    <span>Uji Build Pipeline</span>
-                  </button>
-                  <button type="button" class="mini-btn" data-dispatch-zone="lounge" data-dispatch-task="Syncing plan at whiteboard" data-dispatch-state="SYNCING">
-                    <i data-lucide="users"></i>
-                    <span>Sync Lounge</span>
-                  </button>
-                </div>
-              </div>
-            </aside>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="capabilities">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <div class="section-kicker">
-              <i data-lucide="blocks"></i>
-              <span>Arsitektur Workspace</span>
-            </div>
-            <h2>Dirancang untuk workflow engineering nyata.</h2>
-          </div>
-          <p class="section-desc">
-            Bukan sekadar jendela chat AI. Semua alat eksekusi—dari SSH server sampai inspeksi database lokal—hidup berdampingan dalam satu shell.
-          </p>
-        </div>
-
-        <div class="bento-grid">
-          <article class="bento-card">
-            <div class="card-icon"><i data-lucide="git-fork"></i></div>
-            <h3>Multi-Agent Swarm Terkoordinasi</h3>
-            <p>Delegasikan riset, implementasi kode, hingga verifikasi tes secara paralel dengan workspace terisolasi per worker.</p>
-            <div class="mini-spec">swarm::dispatch -> coder-01 + verifier</div>
-          </article>
-
-          <article class="bento-card">
-            <div class="card-icon"><i data-lucide="server-cog"></i></div>
-            <h3>SSH Workbench &amp; AI Command Helper</h3>
-            <p>Kelola banyak VPS/server sekaligus, susun ulang panel terminal &amp; editor secara drag-and-drop, serta simpan konteks AI per host.</p>
-            <div class="mini-spec">ssh://prod-gateway · per-host memory</div>
-          </article>
-
-          <article class="bento-card">
-            <div class="card-icon"><i data-lucide="database-zap"></i></div>
-            <h3>Hybrid SQLite FTS5 + PostgreSQL Sync</h3>
-            <p>Pencarian instan seluruh riwayat chat di disk lokal dengan SQLite WAL + FTS5, plus sinkronisasi 2-arah opsional ke PostgreSQL Anda sendiri.</p>
-            <div class="mini-spec">giato.db (WAL + FTS5) &lt;-&gt; Postgres</div>
-          </article>
-
-          <article class="bento-card">
-            <div class="card-icon"><i data-lucide="code-2"></i></div>
-            <h3>Editor, Git Diff &amp; Live Browser</h3>
-            <p>Tinjau perubahan file baris demi baris, buka pratinjau aplikasi web secara langsung, dan jalankan terminal workspace tanpa pindah jendela.</p>
-            <div class="mini-spec">split-pane · diff viewer · devtools</div>
-          </article>
-
-          <article class="bento-card">
-            <div class="card-icon"><i data-lucide="shield-check"></i></div>
-            <h3>Login GitHub Tanpa Mengirim Data Chat</h3>
-            <p>Masuk cepat dengan profil lokal atau GitHub Device Flow. Identitas hanya untuk profil, sedangkan seluruh data tetap di perangkat Anda.</p>
-            <div class="mini-spec">device-flow OAuth · local-only storage</div>
-          </article>
-
-          <article class="bento-card">
-            <div class="card-icon"><i data-lucide="bell-dot"></i></div>
-            <h3>Notifikasi Rilis &amp; Pengumuman Otomatis</h3>
-            <p>Aplikasi mengecek feed rilis dan pengumuman resmi secara berkala, memberi tahu pembaruan versi tanpa membebani server backend.</p>
-            <div class="mini-spec">https://giato.giatechindo.my.id/update.json</div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="downloads">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <div class="section-kicker">
-              <i data-lucide="download-cloud"></i>
-              <span>Distribusi Multi-Platform</span>
-            </div>
-            <h2>Unduh installer resmi untuk OS Anda.</h2>
-          </div>
-          <p class="section-desc">
-            Seluruh binary dibangun otomatis di runner terisolasi per sistem operasi dan dilindungi Electron Fuses pada setiap rilis <span class="mono" data-version-badge>v0.1.0</span>.
-          </p>
-        </div>
-
-        <div class="download-grid">
-          <article class="os-card" data-os="mac">
-            <div class="os-head">
-              <div class="os-title-wrap">
-                <div class="card-icon"><i data-lucide="laptop"></i></div>
-                <div>
-                  <h3>macOS</h3>
-                  <small class="mono">Apple Silicon (arm64)</small>
-                </div>
-              </div>
-              <span class="os-badge">Desktop</span>
-            </div>
-            <p class="hero-sub" style="font-size:13.5px;">Paket disk image universal siap drag ke Applications dengan native SQLite &amp; PTY.</p>
-            <div class="os-actions">
-              <a id="dl-mac-dmg" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-                <span>Unduh macOS Installer</span>
-                <small>.dmg</small>
-                <i data-lucide="arrow-down-to-line"></i>
-              </a>
-            </div>
-          </article>
-
-          <article class="os-card" data-os="win">
-            <div class="os-head">
-              <div class="os-title-wrap">
-                <div class="card-icon"><i data-lucide="monitor"></i></div>
-                <div>
-                  <h3>Windows</h3>
-                  <small class="mono">Windows 10 / 11 (x64)</small>
-                </div>
-              </div>
-              <span class="os-badge">Desktop</span>
-            </div>
-            <p class="hero-sub" style="font-size:13.5px;">Tersedia installer interaktif standar (.exe) maupun paket deployment korporat (.msi).</p>
-            <div class="os-actions">
-              <a id="dl-win-exe" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-                <span>Windows NSIS Setup</span>
-                <small>.exe</small>
-                <i data-lucide="arrow-down-to-line"></i>
-              </a>
-              <a id="dl-win-msi" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-                <span>Windows Enterprise MSI</span>
-                <small>.msi</small>
-                <i data-lucide="arrow-down-to-line"></i>
-              </a>
-            </div>
-          </article>
-
-          <article class="os-card" data-os="linux">
-            <div class="os-head">
-              <div class="os-title-wrap">
-                <div class="card-icon"><i data-lucide="terminal"></i></div>
-                <div>
-                  <h3>Linux</h3>
-                  <small class="mono">Ubuntu / Debian / Portable (x64)</small>
-                </div>
-              </div>
-              <span class="os-badge">Desktop</span>
-            </div>
-            <p class="hero-sub" style="font-size:13.5px;">Jalankan langsung tanpa instalasi lewat AppImage atau pasang native via paket .deb.</p>
-            <div class="os-actions">
-              <a id="dl-linux-appimage" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-                <span>Portable AppImage</span>
-                <small>.AppImage</small>
-                <i data-lucide="arrow-down-to-line"></i>
-              </a>
-              <a id="dl-linux-deb" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-                <span>Debian / Ubuntu Package</span>
-                <small>.deb</small>
-                <i data-lucide="arrow-down-to-line"></i>
-              </a>
-            </div>
-          </article>
-        </div>
-
-        <div class="verify-bar">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <i data-lucide="file-check-2"></i>
-            <span>Verifikasi integritas setiap file installer menggunakan daftar checksum resmi.</span>
-          </div>
-          <a id="dl-checksums" class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-            <i data-lucide="key-round"></i>
-            <span>SHA256SUMS.txt</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="releases">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <div class="section-kicker">
-              <i data-lucide="history"></i>
-              <span>Riwayat Versi</span>
-            </div>
-            <h2>Catatan rilis terbaru.</h2>
-          </div>
-          <a class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-            <i data-lucide="github"></i>
-            <span>Arsip GitHub Releases</span>
-          </a>
-        </div>
-
-        <div id="release-list" class="release-list"></div>
-      </div>
+      <div id="release-list" class="release-list"></div>
     </section>
   </main>
 
   <footer>
-    <div class="container footer-inner">
-      <div>
-        <strong>Giato AI Desktop</strong> · Dikembangkan oleh <strong>Gugun Gunawan, S.Kom</strong> · Giatechindo
-      </div>
-      <div class="footer-links">
-        <a href="https://giato.giatechindo.my.id">giato.giatechindo.my.id</a>
-        <a href="./update.json">update.json</a>
-        <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">Releases</a>
-      </div>
+    <div>
+      <strong>Giato</strong> · Giatechindo
+    </div>
+    <div class="footer-links">
+      <a href="https://giato.giatechindo.my.id">giato.giatechindo.my.id</a>
+      <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">Releases</a>
     </div>
   </footer>
 
@@ -409,4 +254,3 @@
   <script src="./app.js"></script>
 </body>
 </html>
-

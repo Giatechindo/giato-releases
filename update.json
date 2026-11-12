@@ -2,7 +2,7 @@
   "version": "0.1.0",
   "tag": "v0.1.0",
   "date": "2026-11-12",
-  "notes": "Rilis awal Giato AI Desktop — Multi-Agent Workspace, SSH Server Workbench, Hybrid SQLite FTS5 + PostgreSQL Sync, Sign in with GitHub, dan Notification Center.",
+  "notes": "Initial desktop release for macOS, Windows, and Linux.",
   "url": "https://giato.giatechindo.my.id/#downloads",
   "releaseUrl": "https://github.com/Giatechindo/giato-releases/releases/tag/v0.1.0",
   "downloads": {
@@ -13,25 +13,15 @@
     "linux_x64_deb": "https://github.com/Giatechindo/giato-releases/releases/latest/download/Giato-AI-Desktop-0.1.0-linux-x64.deb",
     "checksums": "https://github.com/Giatechindo/giato-releases/releases/latest/download/SHA256SUMS.txt"
   },
-  "announcements": [
-    {
-      "id": "launch-giato-web",
-      "title": "Portal Rilis Resmi Giato Aktif",
-      "body": "Unduhan resmi macOS (.dmg), Windows (.exe / .msi), Linux (.AppImage / .deb), serta notifikasi update otomatis kini dilayani melalui giato.giatechindo.my.id.",
-      "level": "info",
-      "date": "2026-11-12",
-      "url": "https://giato.giatechindo.my.id"
-    }
-  ],
+  "announcements": [],
   "history": [
     {
       "version": "0.1.0",
       "tag": "v0.1.0",
       "date": "2026-11-12",
-      "notes": "Rilis awal Giato AI Desktop — Multi-Agent Workspace, SSH Server Workbench, Hybrid SQLite FTS5 + PostgreSQL Sync, Sign in with GitHub, dan Notification Center.",
+      "notes": "Initial desktop release for macOS, Windows, and Linux.",
       "url": "https://giato.giatechindo.my.id/#downloads",
       "releaseUrl": "https://github.com/Giatechindo/giato-releases/releases/tag/v0.1.0"
     }
   ]
 }
-

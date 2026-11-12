@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="id" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Giato — Ruang Kerja AI</title>
-  <meta name="description" content="Satu ruang kerja desktop untuk bekerja bersama tim agent AI." />
+  <title>Giato — AI Desktop Workspace</title>
+  <meta name="description" content="One desktop workspace for your code, servers, and projects." />
   <link rel="icon" type="image/png" href="./assets/giato-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,20 +19,21 @@
       <span class="brand-ver" data-version-badge>v0.1.0</span>
     </a>
 
-    <nav class="nav-links" aria-label="Navigasi">
-      <a href="#office">Office</a>
-      <a href="#slider-band">Fitur</a>
-      <a href="#downloads">Download</a>
-      <a href="#releases">Rilis</a>
+    <nav class="nav-links" aria-label="Navigation">
+      <a href="#office" data-i18n="navOffice">Office</a>
+      <a href="#slider-band" data-i18n="navFeatures">Features</a>
+      <a href="#downloads" data-i18n="navDownload">Download</a>
+      <a href="#releases" data-i18n="navReleases">Releases</a>
     </nav>
 
     <div class="topbar-right">
-      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Ganti tema">
+      <button id="lang-toggle" class="lang-btn" type="button" aria-label="Switch language">EN</button>
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle theme">
         <i data-lucide="sun"></i>
       </button>
       <a class="btn btn-primary" href="#downloads">
         <i data-lucide="download"></i>
-        <span>Download</span>
+        <span data-i18n="navDownload">Download</span>
       </a>
     </div>
   </header>
@@ -43,26 +44,26 @@
       <span id="notice-text"></span>
     </div>
     <a id="notice-link" class="btn" style="height:28px;font-size:12px;" href="#downloads">
-      <span>Lihat</span>
+      <span data-i18n="viewNotice">View</span>
     </a>
   </div>
 
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <h1>Kerja bareng tim AI.</h1>
-        <p class="hero-sub">Satu ruang kerja desktop untuk kode, server, dan proyek Anda.</p>
+        <h1 data-i18n="heroTitle">Work alongside an AI team.</h1>
+        <p class="hero-sub" data-i18n="heroSub">One desktop workspace for your code, servers, and projects.</p>
       </div>
 
       <div class="hero-actions">
         <div class="hero-btn-group">
           <a id="hero-primary-download" class="btn btn-primary btn-lg" href="#downloads">
             <i data-lucide="download"></i>
-            <span id="hero-download-label">Unduh Giato</span>
+            <span id="hero-download-label">Download for macOS (v0.1.0)</span>
           </a>
           <a class="btn btn-lg" href="#downloads">
             <i data-lucide="layers"></i>
-            <span>Pilih OS</span>
+            <span data-i18n="chooseOs">All Platforms</span>
           </a>
         </div>
         <div class="hero-formats">
@@ -73,7 +74,7 @@
       </div>
     </section>
 
-    <section id="office" class="office-stage" aria-label="Simulasi Virtual AI Office">
+    <section id="office" class="office-stage" aria-label="Virtual AI Office Simulation">
       <canvas id="office-canvas"></canvas>
 
       <div class="stage-top-bar">
@@ -81,15 +82,27 @@
           <span id="live-agent-dot" class="live-dot"></span>
           <strong id="live-agent-name">Coordinator</strong>
           <span aria-hidden="true">·</span>
-          <span id="live-agent-task">Membagi tugas ke tim</span>
+          <span id="live-agent-task">Delegating team tasks</span>
         </div>
 
         <div class="stage-tools">
-          <button id="sim-pause" class="icon-btn" type="button" aria-label="Jeda simulasi">
+          <button id="sim-rot-left" class="icon-btn" type="button" aria-label="Rotate left" title="Rotate left">
+            <i data-lucide="rotate-ccw"></i>
+          </button>
+          <button id="sim-rot-right" class="icon-btn" type="button" aria-label="Rotate right" title="Rotate right">
+            <i data-lucide="rotate-cw"></i>
+          </button>
+          <button id="sim-zoom-out" class="icon-btn" type="button" aria-label="Zoom out" title="Zoom out">
+            <i data-lucide="zoom-out"></i>
+          </button>
+          <button id="sim-zoom-in" class="icon-btn" type="button" aria-label="Zoom in" title="Zoom in">
+            <i data-lucide="zoom-in"></i>
+          </button>
+          <button id="sim-pause" class="icon-btn" type="button" aria-label="Pause simulation" title="Pause / Resume">
             <i data-lucide="pause"></i>
           </button>
-          <button id="sim-reset" class="icon-btn" type="button" aria-label="Reset kamera">
-            <i data-lucide="rotate-ccw"></i>
+          <button id="sim-reset" class="icon-btn" type="button" aria-label="Reset camera" title="Reset view">
+            <i data-lucide="scan"></i>
           </button>
         </div>
       </div>
@@ -98,19 +111,19 @@
         <div class="dock-group">
           <button type="button" class="dock-btn is-active" data-scenario="swarm">
             <i data-lucide="workflow"></i>
-            <span>Tim Aktif</span>
+            <span data-i18n="scSwarm">Active Team</span>
           </button>
           <button type="button" class="dock-btn" data-scenario="release">
             <i data-lucide="package"></i>
-            <span>Rilis</span>
+            <span data-i18n="scRelease">Release</span>
           </button>
           <button type="button" class="dock-btn" data-scenario="ssh">
             <i data-lucide="server"></i>
-            <span>Server</span>
+            <span data-i18n="scSsh">Servers</span>
           </button>
           <button type="button" class="dock-btn" data-scenario="db">
             <i data-lucide="database"></i>
-            <span>Database</span>
+            <span data-i18n="scDb">Storage</span>
           </button>
         </div>
 
@@ -120,14 +133,14 @@
       </div>
     </section>
 
-    <section id="slider-band" class="slider-band" aria-label="Kemampuan Giato">
+    <section id="slider-band" class="slider-band" aria-label="Giato Capabilities">
       <div class="slider-head">
-        <h2>Semua dalam satu tempat.</h2>
+        <h2 data-i18n="sliderTitle">Everything in one place.</h2>
         <div class="slider-controls">
-          <button id="slider-prev" class="icon-btn" type="button" aria-label="Geser ke kiri">
+          <button id="slider-prev" class="icon-btn" type="button" aria-label="Slide left">
             <i data-lucide="chevron-left"></i>
           </button>
-          <button id="slider-next" class="icon-btn" type="button" aria-label="Geser ke kanan">
+          <button id="slider-next" class="icon-btn" type="button" aria-label="Slide right">
             <i data-lucide="chevron-right"></i>
           </button>
         </div>
@@ -146,8 +159,8 @@
     <section id="downloads" class="section-band">
       <div class="band-head">
         <div>
-          <h2>Download Giato</h2>
-          <p class="band-sub">Versi <span class="mono" data-version-badge>v0.1.0</span></p>
+          <h2 data-i18n="dlTitle">Download Giato</h2>
+          <p class="band-sub"><span data-i18n="dlVersion">Version</span> <span class="mono" data-version-badge>v0.1.0</span></p>
         </div>
       </div>
 
@@ -165,7 +178,7 @@
           </div>
           <div class="os-actions">
             <a id="dl-mac-dmg" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-              <span>macOS Installer</span>
+              <span data-i18n="dlMac">macOS Installer</span>
               <small>.dmg</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
@@ -185,12 +198,12 @@
           </div>
           <div class="os-actions">
             <a id="dl-win-exe" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-              <span>Windows Setup</span>
+              <span data-i18n="dlWinExe">Windows Setup</span>
               <small>.exe</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
             <a id="dl-win-msi" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-              <span>Windows MSI</span>
+              <span data-i18n="dlWinMsi">Windows MSI</span>
               <small>.msi</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
@@ -210,12 +223,12 @@
           </div>
           <div class="os-actions">
             <a id="dl-linux-appimage" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-              <span>AppImage</span>
+              <span data-i18n="dlLinuxApp">AppImage</span>
               <small>.AppImage</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
             <a id="dl-linux-deb" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
-              <span>Ubuntu / Debian</span>
+              <span data-i18n="dlLinuxDeb">Ubuntu / Debian</span>
               <small>.deb</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
@@ -227,11 +240,11 @@
     <section id="releases" class="section-band">
       <div class="band-head">
         <div>
-          <h2>Rilis</h2>
+          <h2 data-i18n="releasesTitle">Releases</h2>
         </div>
         <a class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
           <i data-lucide="github"></i>
-          <span>Semua Rilis</span>
+          <span data-i18n="allReleases">All Releases</span>
         </a>
       </div>
 
@@ -245,7 +258,7 @@
     </div>
     <div class="footer-links">
       <a href="https://giato.giatechindo.my.id">giato.giatechindo.my.id</a>
-      <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">Releases</a>
+      <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener" data-i18n="navReleases">Releases</a>
     </div>
   </footer>
 

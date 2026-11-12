@@ -915,3 +915,84 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* VS Code Marketplace extension card. */
+.extension-card {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 28px;
+  border-radius: 16px;
+  border: 1px solid var(--g-accent-border);
+  background: linear-gradient(135deg, var(--g-accent-soft), var(--g-surface) 55%);
+}
+
+.extension-glow {
+  flex: none;
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: var(--g-purple-600);
+  color: #ffffff;
+  box-shadow: 0 0 0 1px var(--g-purple-500), 0 18px 40px rgba(117, 87, 246, 0.35);
+}
+
+.extension-glow svg {
+  width: 38px;
+  height: 38px;
+}
+
+.extension-info h3 {
+  margin: 0 0 6px;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.extension-info h3 .mono {
+  font-family: var(--g-font-mono);
+  font-weight: 500;
+  color: var(--g-muted);
+  font-size: 14px;
+}
+
+.extension-info > p {
+  margin: 0 0 16px;
+  color: var(--g-muted);
+  font-size: 14px;
+  max-width: 520px;
+}
+
+.extension-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.extension-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--g-muted);
+  font-size: 13px;
+}
+
+.extension-hint svg {
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 640px) {
+  .extension-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .extension-actions {
+    justify-content: center;
+  }
+}

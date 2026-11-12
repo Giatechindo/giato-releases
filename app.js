@@ -26,7 +26,6 @@
     });
   }
 
-  // OS detection for hero CTA + highlighting download card
   function detectOS() {
     const ua = (navigator.userAgent || '').toLowerCase();
     const plat = (navigator.platform || '').toLowerCase();
@@ -41,21 +40,28 @@
     if (card.getAttribute('data-os') === detectedOs) {
       card.classList.add('is-detected');
       const badge = card.querySelector('.os-badge');
-      if (badge) badge.textContent = 'Terdeteksi';
+      if (badge) badge.textContent = 'Rekomendasi';
     }
   });
 
-  // Load feed from update.json (and check GitHub Releases fallback)
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   async function hydrateReleases() {
     let feed = null;
     try {
       const res = await fetch('./update.json', { cache: 'no-store' });
       if (res.ok) feed = await res.json();
     } catch {
-      // Fallback handled below
+      // Keep default links
     }
-
     if (!feed) return;
+
     const ver = feed.version || '0.1.0';
     const tag = feed.tag || `v${ver}`;
     const dl = feed.downloads || {};
@@ -65,7 +71,6 @@
       el.textContent = tag;
     });
 
-    // Wire primary OS download button
     const primaryBtn = document.getElementById('hero-primary-download');
     const primaryLabel = document.getElementById('hero-download-label');
     if (primaryBtn && primaryLabel) {
@@ -79,7 +84,6 @@
       primaryBtn.href = chosen.url;
     }
 
-    // Wire platform download matrix links
     const linkMap = {
       'dl-mac-dmg': dl.mac_arm64_dmg,
       'dl-win-exe': dl.win_x64_exe,
@@ -93,17 +97,15 @@
       if (el && url) el.href = url;
     });
 
-    // Announcement ribbon
     const noticeBar = document.getElementById('notice-bar');
     const firstNotice = Array.isArray(feed.announcements) ? feed.announcements[0] : null;
     if (noticeBar && firstNotice && firstNotice.title) {
-      document.getElementById('notice-text').textContent = `${firstNotice.title} — ${firstNotice.body || ''}`;
+      document.getElementById('notice-text').textContent = firstNotice.title;
       const nLink = document.getElementById('notice-link');
       if (nLink) nLink.href = firstNotice.url || '#downloads';
       noticeBar.hidden = false;
     }
 
-    // Release history list
     const listEl = document.getElementById('release-list');
     const history = Array.isArray(feed.history) && feed.history.length > 0 ? feed.history : [feed];
     if (listEl) {
@@ -117,8 +119,8 @@
             </div>
             <p class="release-notes">${escapeHtml(item.notes || '')}</p>
             <a class="btn" href="${escapeHtml(item.releaseUrl || fallbackUrl)}" target="_blank" rel="noopener">
-              <i data-lucide="external-link"></i>
-              <span>Assets</span>
+              <i data-lucide="arrow-up-right"></i>
+              <span>Rilis</span>
             </a>
           </article>
         `
@@ -128,77 +130,59 @@
     }
   }
 
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  // Wire Virtual AI Office Inspector UI
-  function setupOfficeInspector() {
+  function setupOfficeOverlay() {
     const sim = window.GiatoOfficeSim;
     if (!sim) return;
 
-    const tabsEl = document.getElementById('agent-tabs');
     const agents = sim.getAgents();
+    const dockAgents = document.getElementById('dock-agents');
+    const liveName = document.getElementById('live-agent-name');
+    const liveTask = document.getElementById('live-agent-task');
+    const liveDot = document.getElementById('live-agent-dot');
 
-    function renderAgentTabs(selectedId) {
-      if (!tabsEl) return;
-      tabsEl.innerHTML = agents
+    function renderDockAgents(selectedId) {
+      if (!dockAgents) return;
+      dockAgents.innerHTML = agents
         .map(
           (a) => `
-          <button type="button" class="agent-chip ${a.id === selectedId ? 'is-selected' : ''}" data-agent-id="${a.id}">
+          <button type="button" class="dock-btn ${a.id === selectedId ? 'is-selected' : ''}" data-agent-id="${a.id}">
             <span class="agent-dot" style="background:${a.color}"></span>
             <span>${a.name}</span>
           </button>
         `
         )
         .join('');
-      tabsEl.querySelectorAll('[data-agent-id]').forEach((btn) => {
+      dockAgents.querySelectorAll('[data-agent-id]').forEach((btn) => {
         btn.addEventListener('click', () => {
           sim.selectAgent(btn.getAttribute('data-agent-id'));
         });
       });
     }
 
-    function updateInspector(agent) {
+    function updateLivePill(agent) {
       if (!agent) return;
-      renderAgentTabs(agent.id);
-      document.getElementById('ins-name').textContent = agent.name;
-      document.getElementById('ins-role').textContent = `${agent.role} · ${agent.model}`;
-      document.getElementById('ins-state').textContent = agent.state;
-      document.getElementById('ins-zone').textContent = agent.zone.toUpperCase();
-      document.getElementById('ins-task').textContent = agent.task;
-      const logBox = document.getElementById('ins-log');
-      if (logBox) {
-        logBox.innerHTML = agent.logs
-          .map((line) => `<div class="log-line"><span>${escapeHtml(line)}</span></div>`)
-          .join('');
-      }
+      renderDockAgents(agent.id);
+      if (liveName) liveName.textContent = agent.name;
+      if (liveTask) liveTask.textContent = agent.task;
+      if (liveDot) liveDot.style.background = agent.color;
     }
 
-    window.addEventListener('giato:agent-selected', (e) => updateInspector(e.detail));
-    window.addEventListener('giato:agent-updated', (e) => updateInspector(e.detail));
+    window.addEventListener('giato:agent-selected', (e) => updateLivePill(e.detail));
+    window.addEventListener('giato:agent-updated', (e) => updateLivePill(e.detail));
 
-    // Periodic refresh of active agent's current task/zone while walking
     setInterval(() => {
-      const current = agents.find((a) => a.id === sim.getSelectedId());
-      if (current) {
-        document.getElementById('ins-state').textContent = current.state;
-        document.getElementById('ins-zone').textContent = current.zone.toUpperCase();
-        document.getElementById('ins-task').textContent = current.task;
-      }
+      const active = agents.find((a) => a.id === sim.getSelectedId());
+      if (active && liveTask) liveTask.textContent = active.task;
     }, 500);
 
-    // Scenario toolbar buttons
     document.querySelectorAll('[data-scenario]').forEach((btn) => {
       btn.addEventListener('click', () => {
         const sc = btn.getAttribute('data-scenario');
         document.querySelectorAll('[data-scenario]').forEach((b) => b.classList.remove('is-active'));
         btn.classList.add('is-active');
         sim.runScenario(sc);
+        const active = agents.find((a) => a.id === sim.getSelectedId());
+        if (active) updateLivePill(active);
       });
     });
 
@@ -206,7 +190,8 @@
     if (pauseBtn) {
       pauseBtn.addEventListener('click', () => {
         const isPaused = sim.togglePause();
-        pauseBtn.innerHTML = `<i data-lucide="${isPaused ? 'play' : 'pause'}"></i><span>${isPaused ? 'Resume' : 'Pause'}</span>`;
+        pauseBtn.innerHTML = `<i data-lucide="${isPaused ? 'play' : 'pause'}"></i>`;
+        pauseBtn.setAttribute('aria-label', isPaused ? 'Lanjutkan simulasi' : 'Jeda simulasi');
         renderIcons();
       });
     }
@@ -216,22 +201,11 @@
       resetBtn.addEventListener('click', () => sim.resetView());
     }
 
-    // Quick task dispatch buttons for currently selected agent
-    document.querySelectorAll('[data-dispatch-zone]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const zone = btn.getAttribute('data-dispatch-zone');
-        const label = btn.getAttribute('data-dispatch-task');
-        const state = btn.getAttribute('data-dispatch-state');
-        sim.dispatchToSelected(zone, label, state);
-      });
-    });
-
-    updateInspector(agents[0]);
+    updateLivePill(agents[0]);
   }
 
   syncThemeIcon();
   renderIcons();
   hydrateReleases();
-  setupOfficeInspector();
+  setupOfficeOverlay();
 })();
-

@@ -262,6 +262,43 @@
     </div>
   </footer>
 
+  <div id="follow-gate" class="modal-overlay" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="follow-gate-title">
+      <button type="button" class="modal-close icon-btn" id="follow-gate-close" aria-label="Close">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="modal-icon"><i data-lucide="heart"></i></div>
+      <h3 id="follow-gate-title" data-i18n="gateTitle">Follow us, then download</h3>
+      <p class="modal-sub" data-i18n="gateSub">Tap all four to unlock the download — thanks for the support!</p>
+      <div class="social-grid">
+        <a class="social-link" data-social="youtube" href="https://www.youtube.com/@giatechindo" target="_blank" rel="noopener">
+          <i data-lucide="youtube"></i>
+          <span>YouTube</span>
+          <i class="social-check" data-lucide="check"></i>
+        </a>
+        <a class="social-link" data-social="facebook" href="https://www.facebook.com/goegoen.ii/" target="_blank" rel="noopener">
+          <i data-lucide="facebook"></i>
+          <span>Facebook</span>
+          <i class="social-check" data-lucide="check"></i>
+        </a>
+        <a class="social-link" data-social="instagram" href="https://www.instagram.com/gugunii/" target="_blank" rel="noopener">
+          <i data-lucide="instagram"></i>
+          <span>Instagram</span>
+          <i class="social-check" data-lucide="check"></i>
+        </a>
+        <a class="social-link" data-social="threads" href="https://www.threads.com/@gugunii" target="_blank" rel="noopener">
+          <i data-lucide="at-sign"></i>
+          <span>Threads</span>
+          <i class="social-check" data-lucide="check"></i>
+        </a>
+      </div>
+      <button type="button" id="follow-gate-continue" class="btn btn-primary btn-lg" disabled>
+        <i data-lucide="download"></i>
+        <span data-i18n="gateContinueLocked">Open all four to continue (0/4)</span>
+      </button>
+    </div>
+  </div>
+
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="./office-sim.js"></script>
   <script src="./app.js"></script>

@@ -37,6 +37,10 @@
       allReleases: 'All Releases',
       openRelease: 'Open',
       viewNotice: 'View',
+      gateTitle: 'Follow us, then download',
+      gateSub: 'We are a small indie team — open all four so the download link unlocks. Thanks for the support!',
+      gateContinueLocked: (n) => `Open all four to continue (${n}/4)`,
+      gateContinueReady: 'Continue to download',
       dlMacLabel: (tag) => `Download for macOS (${tag})`,
       dlWinLabel: (tag) => `Download for Windows (${tag})`,
       dlLinuxLabel: (tag) => `Download for Linux (${tag})`,
@@ -81,6 +85,10 @@
       allReleases: 'Semua Rilis',
       openRelease: 'Buka',
       viewNotice: 'Lihat',
+      gateTitle: 'Follow dulu, baru download',
+      gateSub: 'Kami tim indie kecil — buka keempat link ini supaya tombol unduh terbuka. Makasih banyak dukungannya!',
+      gateContinueLocked: (n) => `Buka keempatnya dulu (${n}/4)`,
+      gateContinueReady: 'Lanjutkan unduhan',
       dlMacLabel: (tag) => `Unduh macOS (${tag})`,
       dlWinLabel: (tag) => `Unduh Windows (${tag})`,
       dlLinuxLabel: (tag) => `Unduh Linux (${tag})`,
@@ -427,10 +435,90 @@
     document.getElementById('slider-next')?.addEventListener('click', () => { velocityBoost = 540; });
   }
 
+  const FOLLOW_KEY = 'giato-web-followed-v1';
+  const DOWNLOAD_TRIGGER_IDS = ['hero-primary-download', 'dl-mac-dmg', 'dl-win-exe', 'dl-win-msi', 'dl-linux-appimage', 'dl-linux-deb'];
+
+  function setupFollowGate() {
+    const overlay = document.getElementById('follow-gate');
+    const continueBtn = document.getElementById('follow-gate-continue');
+    const closeBtn = document.getElementById('follow-gate-close');
+    if (!overlay || !continueBtn) return;
+
+    const socialLinks = Array.from(overlay.querySelectorAll('.social-link'));
+    let pendingUrl = null;
+    let pendingTarget = null;
+
+    function updateContinueLabel() {
+      const dict = COPY[currentLang] || COPY.en;
+      const visited = socialLinks.filter((a) => a.classList.contains('is-visited')).length;
+      const ready = visited >= socialLinks.length;
+      continueBtn.disabled = !ready;
+      continueBtn.querySelector('span').textContent = ready ? dict.gateContinueReady : dict.gateContinueLocked(visited);
+    }
+
+    function openGate(url, target) {
+      pendingUrl = url;
+      pendingTarget = target;
+      overlay.hidden = false;
+      renderIcons();
+      updateContinueLabel();
+    }
+
+    function closeGate() {
+      overlay.hidden = true;
+      pendingUrl = null;
+      pendingTarget = null;
+    }
+
+    function followedAlready() {
+      try { return localStorage.getItem(FOLLOW_KEY) === '1'; } catch { return false; }
+    }
+
+    function markFollowed() {
+      try { localStorage.setItem(FOLLOW_KEY, '1'); } catch {
+        // Private browsing or storage disabled: the gate just reopens next time, which is fine.
+      }
+    }
+
+    DOWNLOAD_TRIGGER_IDS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('click', (event) => {
+        if (followedAlready()) return;
+        event.preventDefault();
+        openGate(el.href, el.target || '_self');
+      });
+    });
+
+    socialLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        link.classList.add('is-visited');
+        updateContinueLabel();
+      });
+    });
+
+    continueBtn.addEventListener('click', () => {
+      if (continueBtn.disabled) return;
+      markFollowed();
+      const url = pendingUrl;
+      const target = pendingTarget;
+      closeGate();
+      if (url) {
+        if (target === '_blank') window.open(url, '_blank', 'noopener');
+        else window.location.href = url;
+      }
+    });
+
+    closeBtn?.addEventListener('click', closeGate);
+    overlay.addEventListener('click', (event) => { if (event.target === overlay) closeGate(); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !overlay.hidden) closeGate(); });
+  }
+
   syncThemeIcon();
   renderIcons();
   setupOfficeOverlay();
   setupKineticSlider();
+  setupFollowGate();
   applyLanguage();
   hydrateReleases();
 })();

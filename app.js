@@ -55,6 +55,10 @@ import { setupFollowGate } from './js/follow-gate.js';
       window.GiatoOfficeSim.setLang(currentLang);
     }
 
+    document.querySelectorAll('.current-year').forEach((el) => {
+      el.textContent = new Date().getFullYear();
+    });
+
     renderSliderCards();
     if (currentFeed) renderReleasesList(currentFeed);
   }

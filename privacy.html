@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Giato</title>
+  <meta name="description" content="Privacy Policy for Giato Desktop Workspace Agent." />
+  <link rel="icon" type="image/png" href="./assets/giato-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html">
+      <img src="./assets/giato-icon.png" alt="Giato" />
+      <span>Giato</span>
+    </a>
+
+    <div class="topbar-right">
+      <a class="btn" href="./index.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Back to Home</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="subpage-container">
+    <div class="subpage-header">
+      <span class="subpage-tag">Legal &amp; Privacy</span>
+      <h1 class="subpage-title">Privacy Policy</h1>
+      <p class="subpage-subtitle">Last updated: 2025 · Built with local-first privacy principles.</p>
+    </div>
+
+    <div class="legal-content">
+      <section class="legal-section">
+        <h2>1. Local-First Architecture</h2>
+        <p>Giato operates as a desktop application designed to run directly on your personal computer or workstation. We believe your code, project files, and development workflows belong strictly to you. Giato does not transmit, index, or store your private codebase on any external server managed by us.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2>2. Data Handling &amp; Storage</h2>
+        <p>All project settings, agent session logs, execution history, and preferences are stored locally on your device within your standard user directories. No proprietary source code is uploaded to cloud storage or mirrored off your machine.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2>3. Third-Party AI Providers &amp; API Keys</h2>
+        <p>When you use cloud AI capabilities (such as OpenAI, Anthropic, or other LLM providers), prompts and requested context snippets are sent directly from your device over encrypted HTTPS connections using your own provided API keys. We do not proxy, inspect, or retain your API credentials or communication with third-party providers. You may also run Giato entirely offline using local LLM engines (such as Ollama).</p>
+      </section>
+
+      <section class="legal-section">
+        <h2>4. Telemetry &amp; Analytics</h2>
+        <p>Giato does not track keystrokes, clipboard contents, file system paths, or personal user data. Only minimal, anonymous application crash reports or update checks may be requested to ensure software reliability, with no identifying details included.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2>5. Your Rights &amp; Control</h2>
+        <p>Because all data resides locally on your machine, you have complete control over your files at all times. You can inspect, modify, export, or delete any cached session or setting directly from your computer without needing to contact any service provider.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2>6. Contact &amp; Open Source</h2>
+        <p>If you have any questions or feedback regarding this policy or Giato's security practices, please visit our official GitHub repository at <a href="https://github.com/Giatechindo" target="_blank" rel="noopener noreferrer" style="color: var(--g-purple-400); text-decoration: underline;">github.com/Giatechindo</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">
+        <strong>Giato</strong> · Giatechindo &copy; <span class="current-year">2025</span>. All rights reserved.
+      </div>
+      <div class="footer-links">
+        <a href="./index.html">Home</a>
+        <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">Releases</a>
+        <a href="./faq.html">FAQ</a>
+        <a href="./privacy.html" class="active" style="color: var(--g-text); font-weight: 600;">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.current-year').forEach(function(el) {
+      el.textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>

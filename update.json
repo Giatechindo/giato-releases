@@ -2,16 +2,16 @@
   "version": "0.1.0",
   "tag": "v0.1.0",
   "date": "2026-11-12",
-  "notes": "Initial desktop release for macOS, Windows, and Linux.",
+  "notes": "Official Giato AI Desktop release.",
   "url": "https://giato.giatechindo.my.id/#downloads",
   "releaseUrl": "https://github.com/Giatechindo/giato-releases/releases/tag/v0.1.0",
   "downloads": {
-    "mac_arm64_dmg": "https://github.com/Giatechindo/giato-releases/releases/latest/download/Giato-AI-Desktop-0.1.0-mac-arm64.dmg",
-    "win_x64_exe": "https://github.com/Giatechindo/giato-releases/releases/latest/download/Giato-AI-Desktop-0.1.0-win-x64.exe",
-    "win_x64_msi": "https://github.com/Giatechindo/giato-releases/releases/latest/download/Giato-AI-Desktop-0.1.0-win-x64.msi",
-    "linux_x64_appimage": "https://github.com/Giatechindo/giato-releases/releases/latest/download/Giato-AI-Desktop-0.1.0-linux-x64.AppImage",
-    "linux_x64_deb": "https://github.com/Giatechindo/giato-releases/releases/latest/download/Giato-AI-Desktop-0.1.0-linux-x64.deb",
-    "checksums": "https://github.com/Giatechindo/giato-releases/releases/latest/download/SHA256SUMS.txt"
+    "mac_arm64_dmg": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-mac-arm64.dmg",
+    "win_x64_exe": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-win-x64.exe",
+    "win_x64_msi": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-win-x64.msi",
+    "linux_x64_appimage": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-linux-x86_64.AppImage",
+    "linux_x64_deb": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-linux-amd64.deb",
+    "checksums": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/SHA256SUMS.txt"
   },
   "announcements": [],
   "history": [
@@ -19,9 +19,17 @@
       "version": "0.1.0",
       "tag": "v0.1.0",
       "date": "2026-11-12",
-      "notes": "Initial desktop release for macOS, Windows, and Linux.",
+      "notes": "Official Giato AI Desktop release.",
       "url": "https://giato.giatechindo.my.id/#downloads",
-      "releaseUrl": "https://github.com/Giatechindo/giato-releases/releases/tag/v0.1.0"
+      "releaseUrl": "https://github.com/Giatechindo/giato-releases/releases/tag/v0.1.0",
+      "downloads": {
+        "mac_arm64_dmg": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-mac-arm64.dmg",
+        "win_x64_exe": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-win-x64.exe",
+        "win_x64_msi": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-win-x64.msi",
+        "linux_x64_appimage": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-linux-x86_64.AppImage",
+        "linux_x64_deb": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/Giato-AI-Desktop-0.1.0-linux-amd64.deb",
+        "checksums": "https://github.com/Giatechindo/giato-releases/releases/download/v0.1.0/SHA256SUMS.txt"
+      }
     }
   ]
 }

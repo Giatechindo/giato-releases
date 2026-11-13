@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Giato — AI Desktop Workspace</title>
   <meta name="description" content="One desktop workspace for your code, servers, and projects." />
+  <link rel="canonical" href="https://giato.giatechindo.my.id/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Giato — AI Desktop Workspace" />
+  <meta property="og:description" content="One desktop workspace for your code, servers, and projects." />
+  <meta property="og:url" content="https://giato.giatechindo.my.id/" />
+  <meta property="og:image" content="https://giato.giatechindo.my.id/assets/giato-icon.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Giato — AI Desktop Workspace" />
+  <meta name="twitter:description" content="One desktop workspace for your code, servers, and projects." />
+  <meta name="twitter:image" content="https://giato.giatechindo.my.id/assets/giato-icon.png" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <link rel="icon" type="image/png" href="./assets/giato-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,13 +28,13 @@
     <a class="brand" href="#">
       <img src="./assets/giato-icon.png" alt="Giato" />
       <span>Giato</span>
-      <span class="brand-ver" data-version-badge>v0.1.0</span>
     </a>
 
     <nav class="nav-links" aria-label="Navigation">
       <a href="#office" data-i18n="navOffice">Office</a>
       <a href="#slider-band" data-i18n="navFeatures">Features</a>
       <a href="#downloads" data-i18n="navDownload">Download</a>
+      <a href="#extension" data-i18n="navExtension">Extension</a>
       <a href="#releases" data-i18n="navReleases">Releases</a>
     </nav>
 
@@ -52,7 +64,7 @@
     <section class="hero">
       <div class="hero-copy">
         <h1 data-i18n="heroTitle">Work alongside an AI team.</h1>
-        <p class="hero-sub" data-i18n="heroSub">One desktop workspace for your code, servers, and projects.</p>
+        <p class="hero-sub" data-i18n="heroSub">One calm desktop workspace for your projects.</p>
       </div>
 
       <div class="hero-actions">
@@ -111,19 +123,19 @@
         <div class="dock-group">
           <button type="button" class="dock-btn is-active" data-scenario="swarm">
             <i data-lucide="workflow"></i>
-            <span data-i18n="scSwarm">Active Team</span>
+            <span data-i18n="scSwarm">Team</span>
           </button>
           <button type="button" class="dock-btn" data-scenario="release">
             <i data-lucide="package"></i>
-            <span data-i18n="scRelease">Release</span>
+            <span data-i18n="scRelease">Build</span>
           </button>
           <button type="button" class="dock-btn" data-scenario="ssh">
-            <i data-lucide="server"></i>
-            <span data-i18n="scSsh">Servers</span>
+            <i data-lucide="cloud"></i>
+            <span data-i18n="scSsh">Cloud</span>
           </button>
           <button type="button" class="dock-btn" data-scenario="db">
-            <i data-lucide="database"></i>
-            <span data-i18n="scDb">Storage</span>
+            <i data-lucide="layers"></i>
+            <span data-i18n="scDb">Workspace</span>
           </button>
         </div>
 
@@ -133,9 +145,9 @@
       </div>
     </section>
 
-    <section id="slider-band" class="slider-band" aria-label="Giato Capabilities">
+    <section id="slider-band" class="slider-band" aria-label="Giato Highlights">
       <div class="slider-head">
-        <h2 data-i18n="sliderTitle">Everything in one place.</h2>
+        <h2 data-i18n="sliderTitle">Built for everyday work.</h2>
         <div class="slider-controls">
           <button id="slider-prev" class="icon-btn" type="button" aria-label="Slide left">
             <i data-lucide="chevron-left"></i>
@@ -177,7 +189,7 @@
             <span class="os-badge">Desktop</span>
           </div>
           <div class="os-actions">
-            <a id="dl-mac-dmg" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-mac-dmg" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlMac">macOS Installer</span>
               <small>.dmg</small>
               <i data-lucide="arrow-down-to-line"></i>
@@ -197,12 +209,12 @@
             <span class="os-badge">Desktop</span>
           </div>
           <div class="os-actions">
-            <a id="dl-win-exe" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-win-exe" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlWinExe">Windows Setup</span>
               <small>.exe</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
-            <a id="dl-win-msi" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-win-msi" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlWinMsi">Windows MSI</span>
               <small>.msi</small>
               <i data-lucide="arrow-down-to-line"></i>
@@ -222,12 +234,12 @@
             <span class="os-badge">Desktop</span>
           </div>
           <div class="os-actions">
-            <a id="dl-linux-appimage" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-linux-appimage" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlLinuxApp">AppImage</span>
               <small>.AppImage</small>
               <i data-lucide="arrow-down-to-line"></i>
             </a>
-            <a id="dl-linux-deb" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+            <a id="dl-linux-deb" class="dl-link" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
               <span data-i18n="dlLinuxDeb">Ubuntu / Debian</span>
               <small>.deb</small>
               <i data-lucide="arrow-down-to-line"></i>
@@ -237,12 +249,36 @@
       </div>
     </section>
 
+    <section id="extension" class="section-band">
+      <div class="band-head">
+        <div>
+          <h2 data-i18n="extTitle">Also on the VS Code Marketplace</h2>
+          <p class="band-sub" data-i18n="extSub">Prefer working inside your editor? Install the Giato extension directly.</p>
+        </div>
+      </div>
+
+      <div class="extension-card">
+        <div class="extension-glow"><i data-lucide="blocks"></i></div>
+        <div class="extension-info">
+          <h3>Giato <span class="mono">for VS Code</span></h3>
+          <p data-i18n="extDesc">The same AI teammate, right inside your editor's sidebar.</p>
+          <div class="extension-actions">
+            <a class="btn btn-primary btn-lg" href="https://marketplace.visualstudio.com/items?itemName=Giatechindo.giato" target="_blank" rel="noopener noreferrer">
+              <i data-lucide="puzzle"></i>
+              <span data-i18n="extInstall">Install from Marketplace</span>
+            </a>
+            <p class="extension-hint"><i data-lucide="search"></i> <span data-i18n="extSearchHint">Or search &ldquo;Giato&rdquo; in VS Code's Extensions panel</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="releases" class="section-band">
       <div class="band-head">
         <div>
           <h2 data-i18n="releasesTitle">Releases</h2>
         </div>
-        <a class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener">
+        <a class="btn" href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer">
           <i data-lucide="github"></i>
           <span data-i18n="allReleases">All Releases</span>
         </a>
@@ -253,17 +289,58 @@
   </main>
 
   <footer>
-    <div>
-      <strong>Giato</strong> · Giatechindo
-    </div>
-    <div class="footer-links">
-      <a href="https://giato.giatechindo.my.id">giato.giatechindo.my.id</a>
-      <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener" data-i18n="navReleases">Releases</a>
+    <div class="footer-inner">
+      <div class="footer-copy">
+        <strong>Giato</strong> · Giatechindo &copy; <span class="current-year">2025</span>. <span data-i18n="footerCopyright">All rights reserved.</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://giato.giatechindo.my.id">giato.giatechindo.my.id</a>
+        <a href="https://github.com/Giatechindo/giato-releases/releases" target="_blank" rel="noopener noreferrer" data-i18n="navReleases">Releases</a>
+        <a href="./privacy.html" data-i18n="footerPrivacy">Privacy Policy</a>
+        <a href="./faq.html" data-i18n="footerFaq">FAQ</a>
+      </div>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <div id="follow-gate" class="modal-overlay" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="follow-gate-title">
+      <button type="button" class="modal-close icon-btn" id="follow-gate-close" aria-label="Close">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="modal-icon"><i data-lucide="heart"></i></div>
+      <h3 id="follow-gate-title" data-i18n="gateTitle">Follow us, then download</h3>
+      <p class="modal-sub" data-i18n="gateSub">Tap all four to unlock the download — thanks for the support!</p>
+      <div class="social-grid">
+        <a class="social-link" data-social="youtube" href="https://www.youtube.com/@giatechindo" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="youtube"></i>
+          <span>YouTube</span>
+          <i class="social-check" data-lucide="check"></i>
+        </a>
+        <a class="social-link" data-social="facebook" href="https://www.facebook.com/goegoen.ii/" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="facebook"></i>
+          <span>Facebook</span>
+          <i class="social-check" data-lucide="check"></i>
+        </a>
+        <a class="social-link" data-social="instagram" href="https://www.instagram.com/gugunii/" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="instagram"></i>
+          <span>Instagram</span>
+          <i class="social-check" data-lucide="check"></i>
+        </a>
+        <a class="social-link" data-social="threads" href="https://www.threads.com/@gugunii" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="at-sign"></i>
+          <span>Threads</span>
+          <i class="social-check" data-lucide="check"></i>
+        </a>
+      </div>
+      <button type="button" id="follow-gate-continue" class="btn btn-primary btn-lg" disabled>
+        <i data-lucide="download"></i>
+        <span data-i18n="gateContinueLocked">Open all four to continue (0/4)</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js" integrity="sha384-ieG+IKD0d/ZPXyCBTMVAbqsQdns8QGJR/e26WMw7M4fkaI/rHcS/YIoi+ah9WGge" crossorigin="anonymous"></script>
   <script src="./office-sim.js"></script>
-  <script src="./app.js"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>

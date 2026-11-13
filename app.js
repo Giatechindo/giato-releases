@@ -1,127 +1,17 @@
+import { COPY } from './js/i18n-dict.js';
+import { renderIcons } from './js/icons.js';
+import { escapeHtml, safeUrl } from './js/security.js';
+import { setupTheme } from './js/theme.js';
+import { setupFollowGate } from './js/follow-gate.js';
+
 (function () {
   const html = document.documentElement;
-  const themeBtn = document.getElementById('theme-toggle');
   const langBtn = document.getElementById('lang-toggle');
-  const savedTheme = localStorage.getItem('giato-web-theme') || 'dark';
   let currentLang = localStorage.getItem('giato-web-lang') || 'en';
   let currentTag = 'v0.1.0';
   let currentFeed = null;
 
-  html.setAttribute('data-theme', savedTheme);
   html.setAttribute('lang', currentLang);
-
-  const COPY = {
-    en: {
-      navOffice: 'Office',
-      navFeatures: 'Features',
-      navDownload: 'Download',
-      navReleases: 'Releases',
-      heroTitle: 'Work alongside an AI team.',
-      heroSub: 'One desktop workspace for your code, servers, and projects.',
-      chooseOs: 'All Platforms',
-      scSwarm: 'Active Team',
-      scRelease: 'Release',
-      scSsh: 'Servers',
-      scDb: 'Storage',
-      sliderTitle: 'Everything in one place.',
-      dlTitle: 'Download Giato',
-      dlVersion: 'Version',
-      dlMac: 'macOS Installer',
-      dlWinExe: 'Windows Setup',
-      dlWinMsi: 'Windows MSI',
-      dlLinuxApp: 'AppImage',
-      dlLinuxDeb: 'Ubuntu / Debian',
-      recommended: 'Recommended',
-      desktop: 'Desktop',
-      releasesTitle: 'Releases',
-      allReleases: 'All Releases',
-      openRelease: 'Open',
-      viewNotice: 'View',
-      dlMacLabel: (tag) => `Download for macOS (${tag})`,
-      dlWinLabel: (tag) => `Download for Windows (${tag})`,
-      dlLinuxLabel: (tag) => `Download for Linux (${tag})`,
-      row1: [
-        { icon: 'users', title: 'Parallel AI Team', sub: 'Split tasks across agents', scenario: 'swarm' },
-        { icon: 'terminal', title: 'SSH Servers', sub: 'Multi-host live terminal', scenario: 'ssh' },
-        { icon: 'code-2', title: 'Editor & Diffs', sub: 'Inspect every line cleanly', scenario: 'swarm' },
-        { icon: 'globe', title: 'Built-in Browser', sub: 'Live preview side by side', scenario: 'release' },
-        { icon: 'folder-git-2', title: 'Multi-Project', sub: 'Organized project tabs', scenario: 'swarm' }
-      ],
-      row2: [
-        { icon: 'hard-drive', title: 'Local-First', sub: 'Fast on-disk workspace', scenario: 'db' },
-        { icon: 'database', title: 'Optional Sync', sub: 'Two-way Postgres support', scenario: 'db' },
-        { icon: 'bell', title: 'Auto Updates', sub: 'Instant release alerts', scenario: 'release' },
-        { icon: 'laptop', title: 'Cross-Platform', sub: 'Mac, Windows & Linux', scenario: 'release' },
-        { icon: 'shield', title: 'GitHub Sign-In', sub: 'Private local data', scenario: 'swarm' }
-      ]
-    },
-    id: {
-      navOffice: 'Office',
-      navFeatures: 'Fitur',
-      navDownload: 'Download',
-      navReleases: 'Rilis',
-      heroTitle: 'Kerja bareng tim AI.',
-      heroSub: 'Satu ruang kerja desktop untuk kode, server, dan proyek Anda.',
-      chooseOs: 'Pilih OS',
-      scSwarm: 'Tim Aktif',
-      scRelease: 'Rilis',
-      scSsh: 'Server',
-      scDb: 'Database',
-      sliderTitle: 'Semua dalam satu tempat.',
-      dlTitle: 'Download Giato',
-      dlVersion: 'Versi',
-      dlMac: 'Installer macOS',
-      dlWinExe: 'Windows Setup',
-      dlWinMsi: 'Windows MSI',
-      dlLinuxApp: 'AppImage',
-      dlLinuxDeb: 'Ubuntu / Debian',
-      recommended: 'Rekomendasi',
-      desktop: 'Desktop',
-      releasesTitle: 'Rilis',
-      allReleases: 'Semua Rilis',
-      openRelease: 'Buka',
-      viewNotice: 'Lihat',
-      dlMacLabel: (tag) => `Unduh macOS (${tag})`,
-      dlWinLabel: (tag) => `Unduh Windows (${tag})`,
-      dlLinuxLabel: (tag) => `Unduh Linux (${tag})`,
-      row1: [
-        { icon: 'users', title: 'Tim Agent Paralel', sub: 'Bagi tugas otomatis', scenario: 'swarm' },
-        { icon: 'terminal', title: 'Server SSH', sub: 'Terminal multi-host', scenario: 'ssh' },
-        { icon: 'code-2', title: 'Editor & Diff', sub: 'Pantau tiap perubahan', scenario: 'swarm' },
-        { icon: 'globe', title: 'Browser Bawaan', sub: 'Pratinjau langsung', scenario: 'release' },
-        { icon: 'folder-git-2', title: 'Lintas Proyek', sub: 'Banyak folder rapi', scenario: 'swarm' }
-      ],
-      row2: [
-        { icon: 'hard-drive', title: 'Data Lokal', sub: 'Simpan cepat di komputer', scenario: 'db' },
-        { icon: 'database', title: 'Sync Opsional', sub: 'Dukungan PostgreSQL', scenario: 'db' },
-        { icon: 'bell', title: 'Update Otomatis', sub: 'Notif rilis terbaru', scenario: 'release' },
-        { icon: 'laptop', title: 'Multi-OS', sub: 'Mac, Windows, Linux', scenario: 'release' },
-        { icon: 'shield', title: 'Login GitHub', sub: 'Data tetap pribadi', scenario: 'swarm' }
-      ]
-    }
-  };
-
-  function renderIcons() {
-    if (window.lucide && typeof window.lucide.createIcons === 'function') {
-      window.lucide.createIcons();
-    }
-  }
-
-  function syncThemeIcon() {
-    if (!themeBtn) return;
-    const isLight = html.getAttribute('data-theme') === 'light';
-    themeBtn.innerHTML = `<i data-lucide="${isLight ? 'moon' : 'sun'}"></i>`;
-    renderIcons();
-  }
-
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-      const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('giato-web-theme', next);
-      syncThemeIcon();
-    });
-  }
 
   function detectOS() {
     const ua = (navigator.userAgent || '').toLowerCase();
@@ -133,14 +23,6 @@
   }
 
   const detectedOs = detectOS();
-
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
 
   function applyLanguage() {
     const dict = COPY[currentLang] || COPY.en;
@@ -173,6 +55,10 @@
       window.GiatoOfficeSim.setLang(currentLang);
     }
 
+    document.querySelectorAll('.current-year').forEach((el) => {
+      el.textContent = new Date().getFullYear();
+    });
+
     renderSliderCards();
     if (currentFeed) renderReleasesList(currentFeed);
   }
@@ -203,7 +89,7 @@
               <span>${escapeHtml(item.date || '')}</span>
             </div>
             <p class="release-notes">${escapeHtml(item.notes || '')}</p>
-            <a class="btn" href="${escapeHtml(item.releaseUrl || fallbackUrl)}" target="_blank" rel="noopener">
+            <a class="btn" href="${escapeHtml(safeUrl(item.releaseUrl || fallbackUrl, fallbackUrl))}" target="_blank" rel="noopener noreferrer">
               <i data-lucide="arrow-up-right"></i>
               <span>${dict.openRelease}</span>
             </a>
@@ -242,7 +128,7 @@
         win: dl.win_x64_exe || fallbackUrl,
         linux: dl.linux_x64_appimage || fallbackUrl
       };
-      primaryBtn.href = urlMap[detectedOs] || fallbackUrl;
+      primaryBtn.href = safeUrl(urlMap[detectedOs] || fallbackUrl, fallbackUrl);
     }
 
     const linkMap = {
@@ -254,7 +140,7 @@
     };
     Object.entries(linkMap).forEach(([id, url]) => {
       const el = document.getElementById(id);
-      if (el && url) el.href = url;
+      if (el && url) el.href = safeUrl(url, el.href);
     });
 
     const noticeBar = document.getElementById('notice-bar');
@@ -262,7 +148,7 @@
     if (noticeBar && firstNotice && firstNotice.title) {
       document.getElementById('notice-text').textContent = firstNotice.title;
       const nLink = document.getElementById('notice-link');
-      if (nLink) nLink.href = firstNotice.url || '#downloads';
+      if (nLink) nLink.href = firstNotice.url ? safeUrl(firstNotice.url, '#downloads') : '#downloads';
       noticeBar.hidden = false;
     }
 
@@ -284,9 +170,9 @@
       dockAgents.innerHTML = agents
         .map(
           (a) => `
-          <button type="button" class="dock-btn ${a.id === selectedId ? 'is-selected' : ''}" data-agent-id="${a.id}">
-            <span class="agent-dot" style="background:${a.color}"></span>
-            <span>${a.name}</span>
+          <button type="button" class="dock-btn ${a.id === selectedId ? 'is-selected' : ''}" data-agent-id="${escapeHtml(a.id)}">
+            <span class="agent-dot" style="background:${escapeHtml(a.color)}"></span>
+            <span>${escapeHtml(a.name)}</span>
           </button>
         `
         )
@@ -354,11 +240,11 @@
       [...items, ...items]
         .map(
           (item) => `
-          <div class="slide-card" data-jump-scenario="${item.scenario}">
-            <div class="slide-icon"><i data-lucide="${item.icon}"></i></div>
+          <div class="slide-card" data-jump-scenario="${escapeHtml(item.scenario)}">
+            <div class="slide-icon"><i data-lucide="${escapeHtml(item.icon)}"></i></div>
             <div>
-              <span class="slide-title">${item.title}</span>
-              <span class="slide-sub">${item.sub}</span>
+              <span class="slide-title">${escapeHtml(item.title)}</span>
+              <span class="slide-sub">${escapeHtml(item.sub)}</span>
             </div>
           </div>
         `
@@ -427,10 +313,11 @@
     document.getElementById('slider-next')?.addEventListener('click', () => { velocityBoost = 540; });
   }
 
-  syncThemeIcon();
+  setupTheme();
   renderIcons();
   setupOfficeOverlay();
   setupKineticSlider();
+  setupFollowGate(() => currentLang);
   applyLanguage();
   hydrateReleases();
 })();

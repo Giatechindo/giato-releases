@@ -40,6 +40,9 @@ export const COPY = {
       dlMacLabel: (tag) => `Download for macOS (${tag})`,
       dlWinLabel: (tag) => `Download for Windows (${tag})`,
       dlLinuxLabel: (tag) => `Download for Linux (${tag})`,
+      footerPrivacy: 'Privacy Policy',
+      footerFaq: 'FAQ',
+      footerCopyright: 'All rights reserved.',
       row1: [
         { icon: 'users', title: 'Parallel AI Team', sub: 'Work across tasks together', scenario: 'swarm' },
         { icon: 'terminal', title: 'Remote Workspace', sub: 'Connect directly from one app', scenario: 'ssh' },
@@ -94,6 +97,9 @@ export const COPY = {
       dlMacLabel: (tag) => `Unduh macOS (${tag})`,
       dlWinLabel: (tag) => `Unduh Windows (${tag})`,
       dlLinuxLabel: (tag) => `Unduh Linux (${tag})`,
+      footerPrivacy: 'Kebijakan Privasi',
+      footerFaq: 'Tanya Jawab (FAQ)',
+      footerCopyright: 'Hak cipta dilindungi.',
       row1: [
         { icon: 'users', title: 'Tim AI Paralel', sub: 'Kerjakan beberapa tugas sekaligus', scenario: 'swarm' },
         { icon: 'terminal', title: 'Kerja Jarak Jauh', sub: 'Terhubung langsung dalam satu app', scenario: 'ssh' },
